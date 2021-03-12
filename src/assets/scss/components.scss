@@ -1,0 +1,60 @@
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 58px;
+    background: $green;
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    color: $white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-item {
+    display: block;
+    position: relative;
+
+    .form-item_label {
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: $black_3;
+    }
+
+    .form-item_input {
+        display: block;
+        width: 100%;
+        height: 58px;
+        font-size: 16px;
+        line-height: 18px;
+        letter-spacing: 0.4px;
+        color: $black_1;
+        background: $gray_1;
+        border: 1px solid $gray_2;
+        box-sizing: border-box;
+        border-radius: 5px;
+        padding: 0 13px;
+
+        &::-webkit-input-placeholder {
+            font-size: 16px;
+            color: $gray_3;
+        }
+
+        &:-ms-input-placeholder {
+            font-size: 16px;
+            color: $gray_3;
+        }
+
+        &::placeholder {
+            font-size: 16px;
+            color: $gray_3;
+        }
+    }
+
+    .form-item_pass-icon {
+
+    }
+}
