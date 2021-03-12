@@ -11,7 +11,10 @@
 </script>
 
 <style lang="scss">
-    @import './assets/scss/vars';
     @import './assets/scss/global';
     @import './assets/scss/components';
+
+    #app {
+        height: 100%;
+    }
 </style>
