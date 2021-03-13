@@ -2,20 +2,35 @@
     <div class="auth_form">
         <h1 class="auth_title">Login</h1>
         <div class="form-item">
-            <label class="form-item_label">Email</label>
-            <input class="form-item_input" type="text" placeholder="Example@gmail.com">
+            <div class="form-item_top">
+                <label class="form-item_label">Email</label>
+                <span class="form-item_error">{{ errors.first('email') }}</span>
+            </div>
+            <input class="form-item_input"
+                   v-model="email"
+                   v-validate="'required|email'"
+                   name="email"
+                   type="text"
+                   placeholder="Example@gmail.com">
         </div>
         <div class="form-item">
-            <label class="form-item_label">Password</label>
+            <div class="form-item_top">
+                <label class="form-item_label">Password</label>
+                <span class="form-item_error">{{ errors.first('password') }}</span>
+            </div>
             <div class="form-item_input-wrap">
-                <input class="form-item_input password" :type="passwordType">
+                <input class="form-item_input password"
+                       v-model="password"
+                       v-validate="'required|min:6'"
+                       name="password"
+                       :type="passwordType">
                 <Eye class="form-item_icon"
                      :class="{hidden:passwordType === 'password'}"
                      @click="togglePasswordVisible()"/>
             </div>
             <p class="auth_note">Don’t remember password?</p>
         </div>
-        <div class="btn-big auth_btn-login">Continue</div>
+        <div class="btn-big auth_btn-login" @click="login()">Continue</div>
     </div>
 </template>
 
@@ -28,11 +43,22 @@
             Eye
         },
         data: () => ({
-            passwordType: 'text'
+            passwordType: 'text',
+            email: '',
+            password: ''
         }),
         methods: {
             togglePasswordVisible() {
                 this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+            },
+            login() {
+                if (this.email
+                    && !this.errors.first('email')
+                    && this.password
+                    && !this.errors.first('password')
+                ) {
+                    console.log(9798)
+                }
             }
         }
     };
