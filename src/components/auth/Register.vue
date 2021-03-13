@@ -17,6 +17,12 @@
             <label class="form-item_label">Password again</label>
             <input class="form-item_input" type="text">
         </div>
-        <div class="btn auth_btn">Register</div>
+        <div class="btn-big auth_btn-register">Register</div>
     </div>
 </template>
+
+<style lang="scss">
+    .auth_btn-register {
+        margin-top: 32px;
+    }
+</style>

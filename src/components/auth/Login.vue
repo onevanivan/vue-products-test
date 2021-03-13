@@ -8,7 +8,8 @@
         <div class="form-item">
             <label class="form-item_label">Password</label>
             <input class="form-item_input" type="text">
+            <p class="auth_note">Don’t remember password?</p>
         </div>
-       <div class="btn auth_btn">Login</div>
+       <div class="btn-big auth_btn-login">Continue</div>
     </div>
 </template>
