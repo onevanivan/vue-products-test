@@ -1,12 +1,12 @@
 <template>
-    <header class="header">
+    <header class="header" :class="{'dark':theme === 'dark'}">
         <div class="header_container">
-            <RouterLink to="/">
+            <RouterLink to="/home">
                 <LogoDark class="header_logo" v-if="theme==='light'"/>
                 <LogoLight class="header_logo" v-if="theme==='dark'"/>
             </RouterLink>
             <div class="header_ctrls">
-                <div class="btn-small header_btn">Sell</div>
+                <RouterLink to="/home" class="btn-small header_btn">Sell</RouterLink>
             </div>
             <div class="header_enter">
                 <RouterLink to="/" class="header_login">Login</RouterLink>
@@ -65,6 +65,18 @@
     .header {
         width: 100%;
 
+        &.dark {
+            background: $black_gradient;
+
+            .header_login {
+                color: $white;
+            }
+
+            .header_favorite-icon {
+                fill: $white;
+            }
+        }
+
         .header_container {
             max-width: 1240px;
             width: 100%;
@@ -103,6 +115,7 @@
         .header_btn {
             flex-shrink: 0;
             margin-left: auto;
+            text-decoration: none;
         }
 
         .header_logo {
@@ -120,8 +133,7 @@
             padding: 9px 10px;
             cursor: pointer;
             flex-shrink: 0;
+            text-decoration: none;
         }
-
-
     }
 </style>

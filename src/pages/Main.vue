@@ -17,9 +17,9 @@
 
 <style lang="scss">
     .main {
-        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding-top: 80px;
     }
 </style>
