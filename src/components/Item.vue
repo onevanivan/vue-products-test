@@ -3,6 +3,12 @@
         <div class="item_img-wrap">
             <img class="item_img"
                  :src="loadImg(item.img)" alt="">
+            <div class="item_favorite"
+                 :class="{selected:isFavorite}"
+                 @click="toggleFavorite()">
+                <HeartFilled class="item_favorite-icon filled"/>
+                <HeartNoFilled class="item_favorite-icon no-filled"/>
+            </div>
         </div>
         <p class="item_title" v-if="item.title">{{item.title}}</p>
         <p class="item_price" v-if="parseInt(item.price)>0">${{item.price}}</p>
@@ -11,16 +17,31 @@
 
 <script>
     import global from '../mixins/global'
+    import HeartFilled from '@/assets/img/heart-filled.svg';
+    import HeartNoFilled from '@/assets/img/heart-no-filled.svg';
 
     export default {
         name: 'Item',
         props: ['item'],
-        mixins: [global]
+        mixins: [global],
+        components: {
+            HeartFilled,
+            HeartNoFilled
+        },
+        data: () => ({
+            isFavorite: false
+        }),
+        methods: {
+            toggleFavorite() {
+                this.isFavorite = !this.isFavorite;
+            }
+        }
     }
 </script>
 
 <style lang="scss">
     .item {
+        position: relative;
         background: $white;
         box-sizing: border-box;
         box-shadow: 0 4px 14px rgba(121, 121, 121, 0.0527344);
@@ -63,6 +84,53 @@
             line-height: 21px;
             color: $black_1;
             padding-left: 9px;
+        }
+
+        .item_favorite {
+            position: absolute;
+            right: 3.5px;
+            bottom: -15px;
+            z-index: 3;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: $white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.163407);
+            cursor: pointer;
+
+            &.selected {
+                .item_favorite-icon {
+                    &.filled {
+                        opacity: 1;
+                    }
+
+                    &.no-filled {
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+
+        .item_favorite-icon {
+            display: block;
+            width: 17px;
+            height: 15px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: 1px;
+            transform: translateY(-50%) translateX(-50%);
+            transition: all 0.25s;
+
+            &.filled {
+                opacity: 0;
+                fill: $green;
+            }
+
+            &.no-filled {
+                opacity: 1;
+                fill: $gray_6;
+            }
         }
     }
 </style>

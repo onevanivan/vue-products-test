@@ -4,7 +4,7 @@
             <div class="catalog_list">
                 <Item v-for="(item) in items"
                       :item="item"
-                      :key="item.name"/>
+                      :key="item.id"/>
             </div>
         </div>
     </div>
@@ -21,26 +21,31 @@
         data: () => ({
             items: [
                 {
+                    id:1,
                     title: 'Item name 1',
                     img:'item.png',
                     price:500.54
                 },
                 {
+                    id:2,
                     title: 'Item name 2',
                     img:'item.png',
                     price:500.54
                 },
                 {
+                    id:3,
                     title: 'Item name 3',
                     img:'item.png',
                     price:500.54
                 },
                 {
+                    id:4,
                     title: 'Item name 4',
                     img:'item.png',
                     price:500.54
                 },
                 {
+                    id:5,
                     title: 'Item name 5',
                     img:'item.png',
                     price:500.54
