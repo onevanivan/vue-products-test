@@ -12,6 +12,14 @@
         name: 'App',
         components: {
             Header
+        },
+        created() {
+            this.$router.beforeEach(async (to, from, next) => {
+                console.log(to, from, next)
+                // делать запрос записывать в store authorized
+                // в компонентах обращаться к authorized
+                next();
+            })
         }
     }
 </script>
