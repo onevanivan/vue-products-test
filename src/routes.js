@@ -1,4 +1,5 @@
 import Main from './pages/Main.vue';
+import Home from './pages/Home.vue';
 
 export default {
     mode: 'history',
@@ -6,7 +7,12 @@ export default {
         {
             path: '/',
             component: Main,
-            name: 'hone'
+            name: 'main'
+        },
+        {
+            path: '/home',
+            component: Home,
+            name: 'home'
         }
     ]
 };

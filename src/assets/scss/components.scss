@@ -14,6 +14,37 @@
     cursor: pointer;
 }
 
+.btn-small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 131px;
+    height: 31px;
+    background: $green;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $white;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding-bottom: 1px;
+}
+
+.btn-middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 176px;
+    height: 50px;
+    background: $purple;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $white;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
 // form-item
 
 .form-item {
