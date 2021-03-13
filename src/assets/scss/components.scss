@@ -1,3 +1,5 @@
+// buttons
+
 .btn-big {
     display: flex;
     align-items: center;
@@ -12,50 +14,72 @@
     cursor: pointer;
 }
 
+// form-item
+
 .form-item {
     display: block;
     position: relative;
+}
 
-    .form-item_label {
-        display: block;
-        font-size: 12px;
-        line-height: 14px;
-        letter-spacing: 0.3px;
-        text-transform: uppercase;
-        color: $black_3;
-        margin-bottom: 4px;
-    }
+.form-item_label {
+    display: block;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: $black_3;
+    margin-bottom: 4px;
+}
 
-    .form-item_input {
-        display: block;
-        width: 100%;
-        height: 58px;
+.form-item_input {
+    display: block;
+    width: 100%;
+    height: 58px;
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    color: $black_1;
+    background: $gray_1;
+    border: 1px solid $gray_2;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 0 13px;
+
+    &::-webkit-input-placeholder {
         font-size: 16px;
-        letter-spacing: 0.4px;
-        color: $black_1;
-        background: $gray_1;
-        border: 1px solid $gray_2;
-        box-sizing: border-box;
-        border-radius: 5px;
-        padding: 0 13px;
-
-        &::-webkit-input-placeholder {
-            font-size: 16px;
-            color: $gray_3;
-        }
-
-        &:-ms-input-placeholder {
-            font-size: 16px;
-            color: $gray_3;
-        }
-
-        &::placeholder {
-            font-size: 16px;
-            color: $gray_3;
-        }
+        color: $gray_3;
     }
 
-    .form-item_pass-icon {
+    &:-ms-input-placeholder {
+        font-size: 16px;
+        color: $gray_3;
+    }
 
+    &::placeholder {
+        font-size: 16px;
+        color: $gray_3;
+    }
+
+    &.password {
+        padding-right: 50px;
+    }
+}
+
+.form-item_input-wrap {
+    position: relative;
+}
+
+.form-item_icon {
+    display: block;
+    width: 24px;
+    height: 16px;
+    position: absolute;
+    top: 23px;
+    right: 18px;
+    z-index: 1;
+    fill: $black;
+    cursor: pointer;
+
+    &.hidden {
+        fill: $gray_4;
     }
 }
