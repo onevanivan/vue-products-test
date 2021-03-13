@@ -4,6 +4,7 @@
         <div class="form-item">
             <label class="form-item_label">Email</label>
             <input class="form-item_input" type="text"
+                   v-model="email"
                    name="email"
                    placeholder="Example@gmail.com">
         </div>
@@ -15,7 +16,9 @@
         </div>
         <div class="form-item">
             <label class="form-item_label">Password</label>
-            <input class="form-item_input" type="text" name="password">
+            <input class="form-item_input" type="text"
+                   v-model="password"
+                   name="password">
         </div>
         <div class="form-item">
             <label class="form-item_label">Password again</label>
@@ -26,6 +29,9 @@
 </template>
 
 <script>
+    import firebase from "firebase/app";
+    import "firebase/auth";
+
     export default {
         name: 'Register',
         data: () => ({
@@ -34,18 +40,29 @@
             fullName: '',
             passwordAgain: ''
         }),
+        created() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyAhSuYHoKZ_4pVKChEmmD8cUPzMwvqTTTU",
+                authDomain: "avada-media-test.firebaseapp.com",
+                databaseURL: "https://avada-media-test-default-rtdb.firebaseio.com",
+                projectId: "avada-media-test",
+                storageBucket: "avada-media-test.appspot.com",
+                messagingSenderId: "332658269283",
+                appId: "1:332658269283:web:9ea36ce2d38c49e863ac56"
+            };
+            firebase.initializeApp(firebaseConfig);
+        },
         methods: {
             register() {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
+                firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                     .then((userCredential) => {
                         // Signed in
-                        var user = userCredential.user;
-                        // ...
+                        let user = userCredential.user;
+                        console.log(user)
                     })
                     .catch((error) => {
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        // ..
+                        console.log(error.code)
+                        console.log(error.message)
                     });
             }
         }
