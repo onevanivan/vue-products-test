@@ -23,5 +23,12 @@
 
     #app {
         height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page {
+        flex: 1;
+        overflow-y: auto;
     }
 </style>

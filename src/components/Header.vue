@@ -64,6 +64,7 @@
 <style lang="scss">
     .header {
         width: 100%;
+        flex-shrink: 0;
 
         &.dark {
             background: $black_gradient;
@@ -78,7 +79,7 @@
         }
 
         .header_container {
-            max-width: 1240px;
+            max-width: 1182px;
             width: 100%;
             margin: 0 auto;
             padding: 18px 28px 15px 28px;
