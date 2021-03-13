@@ -6,13 +6,14 @@
                 <LogoLight class="header_logo" v-if="theme==='dark'"/>
             </RouterLink>
             <div class="header_ctrls">
-                <RouterLink to="/home" class="btn-small header_btn">Sell</RouterLink>
+                <RouterLink v-if="showAdd" to="/inbox" class="btn-small header_btn">+Add</RouterLink>
+                <RouterLink v-else to="/home" class="btn-small header_btn">Sell</RouterLink>
             </div>
             <div class="header_enter">
                 <RouterLink to="/" class="header_login">Login</RouterLink>
-                <div class="header_favorite">
+                <RouterLink to="/favorite" class="header_favorite">
                     <Heart class="header_favorite-icon"/>
-                </div>
+                </RouterLink>
             </div>
         </div>
     </header>
@@ -32,15 +33,28 @@
         },
         data: () => ({
             theme: 'light',
-            showSearch: false
+            showSearch: false,
+            showAdd: false
         }),
         created() {
             if (this.$route.name === 'main') {
                 this.showSearch = false;
+                this.showAdd = false;
                 this.theme = 'light';
             }
             if (this.$route.name === 'home') {
                 this.showSearch = true;
+                this.showAdd = true;
+                this.theme = 'dark';
+            }
+            if (this.$route.name === 'favorite') {
+                this.showSearch = true;
+                this.showAdd = true;
+                this.theme = 'dark';
+            }
+            if (this.$route.name === 'inbox') {
+                this.showSearch = false;
+                this.showAdd = false;
                 this.theme = 'dark';
             }
         },
@@ -49,10 +63,22 @@
                 handler(to) {
                     if (to.name === 'main') {
                         this.showSearch = false;
+                        this.showAdd = false;
                         this.theme = 'light';
                     }
                     if (to.name === 'home') {
                         this.showSearch = true;
+                        this.showAdd = true;
+                        this.theme = 'dark';
+                    }
+                    if (to.name === 'favorite') {
+                        this.showSearch = true;
+                        this.showAdd = true;
+                        this.theme = 'dark';
+                    }
+                    if (to.name === 'inbox') {
+                        this.showSearch = false;
+                        this.showAdd = false;
                         this.theme = 'dark';
                     }
                 }
