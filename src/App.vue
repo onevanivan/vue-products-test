@@ -33,6 +33,15 @@
                         this.$router.push('/home');
                     }
                 }
+                if (!user) {
+                    let data = {
+                        email: '',
+                        authenticated: false,
+                        fullName: ''
+                    };
+                    this.$store.commit('setUser', data);
+                    this.$router.push('/');
+                }
             });
 
             // this.$router.beforeEach(async (to, from, next) => {

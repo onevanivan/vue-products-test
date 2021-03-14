@@ -31,6 +31,7 @@
             <p class="auth_note">Don’t remember password?</p>
         </div>
         <div class="btn-big auth_btn-login" @click="login()">Continue</div>
+        <p class="auth_form-error">{{loginErrorMessage}}</p>
     </div>
 </template>
 
@@ -47,7 +48,8 @@
         data: () => ({
             passwordType: 'text',
             email: '',
-            password: ''
+            password: '',
+            loginErrorMessage: ''
         }),
         methods: {
             togglePasswordVisible() {
@@ -69,8 +71,12 @@
                             this.$store.commit('setUser', data);
                             this.$router.push('/home');
                         }).catch((error) => {
-                        console.log(error.code)
-                        console.log(error.message)
+                        if (error.code === 'auth/user-not-found') {
+                            this.loginErrorMessage = 'User not found';
+                        }
+                        if (error.code === 'auth/wrong-password') {
+                            this.loginErrorMessage = 'Wrong password';
+                        }
                     });
                 }
             }

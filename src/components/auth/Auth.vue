@@ -48,12 +48,24 @@
         padding-right: 16px;
 
         .auth_form {
+            position: relative;
             width: 100%;
             background: $white;
             box-shadow: 0 2px 42px rgba(0, 0, 0, 0.111233);
             border-radius: 7px;
             margin-bottom: 21px;
             padding: 25px 24px 21px 24px;
+        }
+
+        .auth_form-error {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            font-size: 12px;
+            color: $red;
+            text-align: center;
         }
 
         .auth_title {
