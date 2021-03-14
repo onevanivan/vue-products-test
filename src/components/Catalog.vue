@@ -1,17 +1,21 @@
 <template>
     <div class="catalog">
         <div class="catalog_container">
-            <div class="catalog_list">
-                <Item v-for="(item) in items"
+            <div class="catalog_list" v-if="items && !loading">
+                <Item v-for="(item, key) in items"
                       :item="item"
-                      :key="item.id"/>
+                      :key="key"/>
             </div>
+            <p class="catalog_empty" v-if="loading">Loading...</p>
+            <p class="catalog_empty" v-if="!items && !loading">You still have no products</p>
         </div>
     </div>
 </template>
 
 <script>
     import Item from './Item';
+    import firebase from "firebase/app";
+    import "firebase/database";
 
     export default {
         name: 'Catalog',
@@ -19,39 +23,16 @@
             Item
         },
         data: () => ({
-            items: [
-                {
-                    id: 1,
-                    title: 'Item name 1',
-                    img: 'item.png',
-                    price: 500.54
-                },
-                {
-                    id: 2,
-                    title: 'Item name 2',
-                    img: 'item.png',
-                    price: 500.54
-                },
-                {
-                    id: 3,
-                    title: 'Item name 3',
-                    img: 'item.png',
-                    price: 500.54
-                },
-                {
-                    id: 4,
-                    title: 'Item name 4',
-                    img: 'item.png',
-                    price: 500.54
-                },
-                {
-                    id: 5,
-                    title: 'Item name 5',
-                    img: 'item.png',
-                    price: 500.54
-                }
-            ]
-        })
+            items: false,
+            loading: true
+        }),
+        created() {
+            const starCountRef = firebase.database().ref('catalog');
+            starCountRef.on('value', (snapshot) => {
+                this.items = snapshot.val();
+                this.loading = false;
+            });
+        }
     }
 </script>
 
@@ -85,6 +66,12 @@
                     width: calc(25% - 6px);
                 }
             }
+        }
+
+        .catalog_empty {
+            font-size: 20px;
+            text-align: center;
+            padding-top: 40px;
         }
     }
 </style>

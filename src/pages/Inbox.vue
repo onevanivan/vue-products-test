@@ -38,7 +38,7 @@
                     <label class="form-item_label">Photo</label>
                     <div class="form-item_file">
                         <div class="form-item_file-add">
-                            <input type="file" class="form-item_file-input">
+                            <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-item_file-input">
                         </div>
                     </div>
                 </div>
@@ -47,16 +47,20 @@
                     <input class="form-item_input"
                            v-model="price"
                            name="price"
+                           @keypress="isNumber($event)"
                            type="text"
                            placeholder="For example: 500">
                 </div>
-                <div class="btn-big inbox_button">Submit</div>
+                <div class="btn-big inbox_button" @click="add()">Submit</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import firebase from "firebase/app";
+    import "firebase/database";
+
     export default {
         name: 'Inbox',
         data: () => ({
@@ -64,7 +68,33 @@
             location: '',
             description: '',
             price: ''
-        })
+        }),
+        methods: {
+            isNumber: function (evt) {
+                let charCode = evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            },
+            add() {
+                if (this.title && this.location) {
+                    const postListRef = firebase.database().ref('catalog');
+                    const newPostRef = postListRef.push();
+                    newPostRef.set({
+                        title: this.title,
+                        location: this.location,
+                        description: this.description,
+                        price: this.price,
+                        img: 'item.png',
+                        favorite: false
+                    }).then(() => {
+                        this.$router.push({name: 'home'});
+                    });
+                }
+            }
+        }
     }
 </script>
 

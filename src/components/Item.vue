@@ -33,9 +33,19 @@
         }),
         methods: {
             toggleFavorite() {
-                this.isFavorite = !this.isFavorite;
+                if (!this.authenticated) {
+                    this.$router.push({name: 'main'});
+                } else {
+                    this.isFavorite = !this.isFavorite;
+
+                }
             }
-        }
+        },
+        computed: {
+            authenticated() {
+                return this.$store.state.authenticated;
+            }
+        },
     }
 </script>
 

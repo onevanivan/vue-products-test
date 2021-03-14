@@ -116,7 +116,6 @@
         },
         computed: {
             authenticated() {
-                console.log(this.$store.state.authenticated);
                 return this.$store.state.authenticated;
             }
         },
