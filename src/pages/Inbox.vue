@@ -88,7 +88,7 @@
                         description: this.description,
                         price: this.price,
                         img: 'item.png',
-                        favorite: false
+                        isFavorite: false
                     }).then(() => {
                         this.$router.push({name: 'home'});
                     });

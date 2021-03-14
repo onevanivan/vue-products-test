@@ -3,6 +3,7 @@
         <div class="catalog_container">
             <div class="catalog_list" v-if="items && !loading">
                 <Item v-for="(item, key) in items"
+                      :id="key"
                       :item="item"
                       :key="key"/>
             </div>

@@ -5,7 +5,7 @@
                  :src="loadImg(item.img)" alt="">
             <div class="item_favorite"
                  :class="{selected:isFavorite}"
-                 @click="toggleFavorite()">
+                 @click="toggleFavorite(id)">
                 <HeartFilled class="item_favorite-icon filled"/>
                 <HeartNoFilled class="item_favorite-icon no-filled"/>
             </div>
@@ -19,10 +19,12 @@
     import global from '../mixins/global'
     import HeartFilled from '@/assets/img/heart-filled.svg';
     import HeartNoFilled from '@/assets/img/heart-no-filled.svg';
+    import firebase from "firebase/app";
+    import "firebase/database";
 
     export default {
         name: 'Item',
-        props: ['item'],
+        props: ['item', 'id'],
         mixins: [global],
         components: {
             HeartFilled,
@@ -31,13 +33,18 @@
         data: () => ({
             isFavorite: false
         }),
+        created() {
+            this.isFavorite = this.item.isFavorite
+        },
         methods: {
-            toggleFavorite() {
+            toggleFavorite(id) {
                 if (!this.authenticated) {
                     this.$router.push({name: 'main'});
                 } else {
                     this.isFavorite = !this.isFavorite;
-
+                    firebase.database().ref('catalog/' + id).update({
+                        isFavorite: this.isFavorite
+                    });
                 }
             }
         },
