@@ -10,7 +10,8 @@
                 <RouterLink v-else to="/home" class="btn-small header_btn">Sell</RouterLink>
             </div>
             <div class="header_enter">
-                <RouterLink to="/" class="header_login">Login</RouterLink>
+                <div class="header_auth" @click="logout()" v-if="authenticated">Logout</div>
+                <RouterLink to="/" class="header_auth" v-else>Login</RouterLink>
                 <RouterLink to="/favorite" class="header_favorite">
                     <Heart class="header_favorite-icon"/>
                 </RouterLink>
@@ -23,6 +24,8 @@
     import LogoLight from '@/assets/img/logo-light.svg';
     import LogoDark from '@/assets/img/logo-dark.svg';
     import Heart from '@/assets/img/heart.svg';
+    import firebase from "firebase/app";
+    import "firebase/auth";
 
     export default {
         name: 'Header',
@@ -83,6 +86,26 @@
                     }
                 }
             }
+        },
+        computed: {
+            authenticated() {
+                return this.$store.state.user.authenticated
+            }
+        },
+        methods: {
+            logout() {
+                firebase.auth().signOut().then(() => {
+                    let data = {
+                        email: '',
+                        authenticated: false,
+                        fullName: ''
+                    };
+                    this.$store.commit('setUser', data);
+                    this.$router.push('/');
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }
         }
     }
 </script>
@@ -95,7 +118,7 @@
         &.dark {
             background: $black_gradient;
 
-            .header_login {
+            .header_auth {
                 color: $white;
             }
 
@@ -152,7 +175,7 @@
             flex-shrink: 0;
         }
 
-        .header_login {
+        .header_auth {
             font-size: 12px;
             letter-spacing: 1px;
             text-transform: uppercase;

@@ -27,15 +27,24 @@
             };
             firebase.initializeApp(firebaseConfig);
 
-            this.$router.beforeEach(async (to, from, next) => {
-                console.log(to, from, next)
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        console.log(user)
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user && user.email === this.$store.state.user.email) {
+                    if (this.$route.name === 'main') {
+                        this.$router.push('/home');
                     }
-                });
-                next();
-            })
+                }
+            });
+
+            // this.$router.beforeEach(async (to, from, next) => {
+            //     firebase.auth().onAuthStateChanged((user) => {
+            //         if (user && user.email === this.$store.state.user.email) {
+            //             if (to.name === 'main') {
+            //                 this.$router.push('/home');
+            //             }
+            //         }
+            //     });
+            //     next();
+            // });
         }
     }
 </script>

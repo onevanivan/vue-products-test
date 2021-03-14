@@ -2,27 +2,46 @@
     <div class="auth_form">
         <h1 class="auth_title">Register</h1>
         <div class="form-item">
-            <label class="form-item_label">Email</label>
+            <div class="form-item_top">
+                <label class="form-item_label">Email</label>
+                <span class="form-item_error">{{ errors.first('email') }}</span>
+            </div>
             <input class="form-item_input" type="text"
                    v-model="email"
+                   v-validate="'required|email'"
                    name="email"
                    placeholder="Example@gmail.com">
         </div>
         <div class="form-item">
-            <label class="form-item_label">Full name</label>
+            <div class="form-item_top">
+                <label class="form-item_label">Full name</label>
+                <span class="form-item_error">{{ errors.first('full_name') }}</span>
+            </div>
             <input class="form-item_input" type="text"
+                   v-model="fullName"
                    name="full_name"
+                   v-validate="'required'"
                    placeholder="Tony Stark">
         </div>
         <div class="form-item">
-            <label class="form-item_label">Password</label>
+            <div class="form-item_top">
+                <label class="form-item_label">Password</label>
+                <span class="form-item_error">{{ errors.first('password') }}</span>
+            </div>
             <input class="form-item_input" type="text"
                    v-model="password"
+                   v-validate="'required|min:6'"
                    name="password">
         </div>
         <div class="form-item">
-            <label class="form-item_label">Password again</label>
-            <input class="form-item_input" type="text" name="password_again">
+            <div class="form-item_top">
+                <label class="form-item_label">Password again</label>
+                <span class="form-item_error">{{ errors.first('password_again') }}</span>
+            </div>
+            <input class="form-item_input" type="text"
+                   name="password_again"
+                   v-validate="'required'"
+                   v-model="passwordAgain">
         </div>
         <div class="btn-big auth_btn-register" @click="register()">Register</div>
     </div>
@@ -40,30 +59,29 @@
             fullName: '',
             passwordAgain: ''
         }),
-        created() {
-            const firebaseConfig = {
-                apiKey: "AIzaSyAhSuYHoKZ_4pVKChEmmD8cUPzMwvqTTTU",
-                authDomain: "avada-media-test.firebaseapp.com",
-                databaseURL: "https://avada-media-test-default-rtdb.firebaseio.com",
-                projectId: "avada-media-test",
-                storageBucket: "avada-media-test.appspot.com",
-                messagingSenderId: "332658269283",
-                appId: "1:332658269283:web:9ea36ce2d38c49e863ac56"
-            };
-            firebase.initializeApp(firebaseConfig);
-        },
         methods: {
             register() {
-                firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-                    .then((userCredential) => {
-                        // Signed in
-                        let user = userCredential.user;
-                        console.log(user)
-                    })
-                    .catch((error) => {
-                        console.log(error.code)
-                        console.log(error.message)
-                    });
+                console.log(this.errors)
+                if (!this.errors.first('email')
+                    && !this.errors.first('password')
+                    && !this.errors.first('fullName')
+                    && !this.errors.first('passwordAgain')
+                ) {
+                    firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+                        .then((userCredential) => {
+                            let data = {
+                                email: userCredential.user.email,
+                                authenticated: true,
+                                fullName: this.fullName
+                            };
+                            this.$store.commit('setUser', data);
+                            this.$router.push('/home');
+                        })
+                        .catch((error) => {
+                            console.log(error.code)
+                            console.log(error.message)
+                        });
+                }
             }
         }
     }

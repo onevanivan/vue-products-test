@@ -36,6 +36,8 @@
 
 <script>
     import Eye from '@/assets/img/eye.svg';
+    import firebase from "firebase/app";
+    import "firebase/auth";
 
     export default {
         name: 'Login',
@@ -57,7 +59,19 @@
                     && this.password
                     && !this.errors.first('password')
                 ) {
-                    console.log(9798)
+                    firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                        .then((userCredential) => {
+                            let data = {
+                                email: userCredential.user.email,
+                                authenticated: true,
+                                fullName: ''
+                            };
+                            this.$store.commit('setUser', data);
+                            this.$router.push('/home');
+                        }).catch((error) => {
+                        console.log(error.code)
+                        console.log(error.message)
+                    });
                 }
             }
         }
