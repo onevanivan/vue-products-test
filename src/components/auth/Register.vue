@@ -93,18 +93,16 @@
                     }
                     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                         .then((userCredential) => {
-                            let data = {
+                            const user = {
                                 email: userCredential.user.email,
-                                authenticated: true,
                                 fullName: this.fullName
                             };
-                            this.$store.commit('setUser', data);
-                            this.$router.push('/home');
-
-                            // todo: добавлять пользователя в базу, чтобы забирать его имя при логине
+                            this.$store.commit('setAuth', true);
+                            this.$store.commit('setUser', user);
+                            this.$router.replace({name: 'home'});
                         })
                         .catch((error) => {
-                            if(error.code === 'auth/email-already-in-use') {
+                            if (error.code === 'auth/email-already-in-use') {
                                 this.registerErrorMessage = 'User already exists'
                             }
                         });

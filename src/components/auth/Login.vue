@@ -38,7 +38,6 @@
 <script>
     import Eye from '@/assets/img/eye.svg';
     import firebase from "firebase/app";
-    import "firebase/auth";
 
     export default {
         name: 'Login',
@@ -63,13 +62,14 @@
                 ) {
                     firebase.auth().signInWithEmailAndPassword(this.email, this.password)
                         .then((userCredential) => {
-                            let data = {
+                            console.log(userCredential.user)
+                            this.$store.commit('setAuth', true);
+                            const user = {
                                 email: userCredential.user.email,
-                                authenticated: true,
                                 fullName: ''
                             };
-                            this.$store.commit('setUser', data);
-                            this.$router.push('/home');
+                            this.$store.commit('setUser', user);
+                            this.$router.replace({name: 'home'});
                         }).catch((error) => {
                         if (error.code === 'auth/user-not-found') {
                             this.loginErrorMessage = 'User not found';

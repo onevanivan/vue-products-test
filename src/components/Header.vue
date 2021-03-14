@@ -50,7 +50,6 @@
     import LogoDark from '@/assets/img/logo-dark.svg';
     import Heart from '@/assets/img/heart.svg';
     import firebase from "firebase/app";
-    import "firebase/auth";
 
     export default {
         name: 'Header',
@@ -117,19 +116,16 @@
         },
         computed: {
             authenticated() {
-                return this.$store.state.user.authenticated
+                console.log(this.$store.state.authenticated);
+                return this.$store.state.authenticated;
             }
         },
         methods: {
             logout() {
                 firebase.auth().signOut().then(() => {
-                    let data = {
-                        email: '',
-                        authenticated: false,
-                        fullName: ''
-                    };
-                    this.$store.commit('setUser', data);
-                    this.$router.push('/');
+                    this.$store.commit('setUser', false);
+                    this.$store.commit('setAuth', false);
+                    this.$router.replace({name: 'main'});
                 }).catch((error) => {
                     console.log(error)
                 });

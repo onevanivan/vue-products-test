@@ -8,7 +8,6 @@
 <script>
     import Header from './components/Header'
     import firebase from "firebase/app";
-    import "firebase/auth";
 
     export default {
         name: 'App',
@@ -16,45 +15,18 @@
             Header
         },
         created() {
-            const firebaseConfig = {
-                apiKey: "AIzaSyAhSuYHoKZ_4pVKChEmmD8cUPzMwvqTTTU",
-                authDomain: "avada-media-test.firebaseapp.com",
-                databaseURL: "https://avada-media-test-default-rtdb.firebaseio.com",
-                projectId: "avada-media-test",
-                storageBucket: "avada-media-test.appspot.com",
-                messagingSenderId: "332658269283",
-                appId: "1:332658269283:web:9ea36ce2d38c49e863ac56"
-            };
-            firebase.initializeApp(firebaseConfig);
-
             firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    if (this.$route.name === 'main') {
-                        this.$router.push('/home');
-                    }
-                } else {
-                    const data = {
-                        email: '',
-                        authenticated: false,
-                        fullName: ''
-                    };
-                    this.$store.commit('setUser', data);
+                if (!user) {
+                    this.$store.commit('setUser', false);
+                    this.$store.commit('setAuth', false);
                 }
             });
 
-            this.$router.beforeEach(async (to, from, next) => {
+            this.$router.beforeEach((to, from, next) => {
                 firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        if (this.$route.name === 'main') {
-                            this.$router.push('/home');
-                        }
-                    } else {
-                        const data = {
-                            email: '',
-                            authenticated: false,
-                            fullName: ''
-                        };
-                        this.$store.commit('setUser', data);
+                    if (!user) {
+                        this.$store.commit('setUser', false);
+                        this.$store.commit('setAuth', false);
                     }
                 });
                 next();
