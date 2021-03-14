@@ -70,8 +70,8 @@
             password: '',
             fullName: '',
             passwordAgain: '',
-            passwordType: 'text',
-            passwordAgainType: 'text',
+            passwordType: 'password',
+            passwordAgainType: 'password',
             registerErrorMessage: ''
         }),
         components: {

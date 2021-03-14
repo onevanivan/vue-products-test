@@ -46,7 +46,7 @@
             Eye
         },
         data: () => ({
-            passwordType: 'text',
+            passwordType: 'password',
             email: '',
             password: '',
             loginErrorMessage: ''

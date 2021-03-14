@@ -28,32 +28,37 @@
             firebase.initializeApp(firebaseConfig);
 
             firebase.auth().onAuthStateChanged((user) => {
-                if (user && user.email === this.$store.state.user.email) {
+                if (user) {
                     if (this.$route.name === 'main') {
                         this.$router.push('/home');
                     }
-                }
-                if (!user) {
-                    let data = {
+                } else {
+                    const data = {
                         email: '',
                         authenticated: false,
                         fullName: ''
                     };
                     this.$store.commit('setUser', data);
-                    this.$router.push('/');
                 }
             });
 
-            // this.$router.beforeEach(async (to, from, next) => {
-            //     firebase.auth().onAuthStateChanged((user) => {
-            //         if (user && user.email === this.$store.state.user.email) {
-            //             if (to.name === 'main') {
-            //                 this.$router.push('/home');
-            //             }
-            //         }
-            //     });
-            //     next();
-            // });
+            this.$router.beforeEach(async (to, from, next) => {
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        if (this.$route.name === 'main') {
+                            this.$router.push('/home');
+                        }
+                    } else {
+                        const data = {
+                            email: '',
+                            authenticated: false,
+                            fullName: ''
+                        };
+                        this.$store.commit('setUser', data);
+                    }
+                });
+                next();
+            });
         }
     }
 </script>
