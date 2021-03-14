@@ -7,8 +7,9 @@
                     <LogoLight class="header_logo" v-if="theme==='dark'"/>
                 </RouterLink>
                 <div class="header_ctrls">
-                    <RouterLink v-if="showAdd" to="/inbox" class="btn-small header_btn">+Add</RouterLink>
-                    <RouterLink v-else to="/home" class="btn-small header_btn">Sell</RouterLink>
+                    <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add
+                    </RouterLink>
+                    <RouterLink v-if="showSell" to="/home" class="btn-small header_btn">Sell</RouterLink>
                 </div>
                 <div class="header_enter">
                     <div class="header_auth" @click="logout()" v-if="authenticated">Logout</div>
@@ -25,10 +26,10 @@
             </div>
         </div>
         <nav class="header_menu" :class="{active:openMenu}">
-            <div class="header_menu-item" v-if="showAdd">
+            <div class="header_menu-item" v-if="showAdd && authenticated">
                 <RouterLink to="/inbox">+Add</RouterLink>
             </div>
-            <div class="header_menu-item" v-else>
+            <div class="header_menu-item" v-if="showSell">
                 <RouterLink to="/home">Sell</RouterLink>
             </div>
             <div class="header_menu-item">
@@ -62,13 +63,13 @@
             theme: 'light',
             showSearch: false,
             showAdd: false,
+            showSell: false,
             openMenu: false
         }),
         created() {
             if (this.$route.name === 'main') {
-                this.showSearch = false;
-                this.showAdd = false;
                 this.theme = 'light';
+                this.showSell = true;
             }
             if (this.$route.name === 'home') {
                 this.showSearch = true;
@@ -77,21 +78,24 @@
             }
             if (this.$route.name === 'favorite') {
                 this.showSearch = true;
-                this.showAdd = true;
+                this.showSell = true;
                 this.theme = 'dark';
             }
             if (this.$route.name === 'inbox') {
-                this.showSearch = false;
-                this.showAdd = false;
                 this.theme = 'dark';
+                this.showSell = true;
             }
         },
         watch: {
             '$route': {
                 handler(to) {
+                    this.openMenu = false;
+                    this.showSearch = false;
+                    this.showAdd = false;
+                    this.showSell = false;
+
                     if (to.name === 'main') {
-                        this.showSearch = false;
-                        this.showAdd = false;
+                        this.showSell = true;
                         this.theme = 'light';
                     }
                     if (to.name === 'home') {
@@ -101,13 +105,12 @@
                     }
                     if (to.name === 'favorite') {
                         this.showSearch = true;
-                        this.showAdd = true;
+                        this.showSell = true;
                         this.theme = 'dark';
                     }
                     if (to.name === 'inbox') {
-                        this.showSearch = false;
-                        this.showAdd = false;
                         this.theme = 'dark';
+                        this.showSell = true;
                     }
                 }
             }
