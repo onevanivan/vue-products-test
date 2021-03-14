@@ -71,6 +71,10 @@
     text-transform: uppercase;
     color: $black_3;
     margin-bottom: 4px;
+
+    & > .required {
+        color: $red;
+    }
 }
 
 .form-item_input {
@@ -82,21 +86,23 @@
     color: $black_1;
     background: $gray_1;
     border: 1px solid $gray_2;
-    box-sizing: border-box;
     border-radius: 5px;
-    padding: 0 13px;
+    padding: 19px 13px 19px 13px;
 
     &::-webkit-input-placeholder {
+        font-family: 'Helvetica';
         font-size: 16px;
         color: $gray_3;
     }
 
     &:-ms-input-placeholder {
+        font-family: 'Helvetica';
         font-size: 16px;
         color: $gray_3;
     }
 
     &::placeholder {
+        font-family: 'Helvetica';
         font-size: 16px;
         color: $gray_3;
     }
@@ -104,7 +110,65 @@
     &.password {
         padding-right: 50px;
     }
+
+    &.area {
+        resize: none;
+    }
 }
+
+.form-item_file {
+    display: block;
+    width: 100%;
+    background: $gray_1;
+    border: 1px solid $gray_2;
+    border-radius: 5px;
+    padding: 16px;
+
+    .form-item_file-add {
+        position: relative;
+        width: 92px;
+        height: 92px;
+        background: $gray_5;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:after, &:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            display: block;
+            width: 38px;
+            height: 4px;
+            border-radius: 4px;
+            background: $green;
+            z-index: 1;
+        }
+
+        &:after {
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        &:before {
+            transform: translateX(-50%) translateY(-50%) rotate(90deg);
+        }
+    }
+
+    .form-item_file-input {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+}
+
 
 .form-item_input-wrap {
     position: relative;

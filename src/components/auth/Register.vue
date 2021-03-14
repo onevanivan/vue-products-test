@@ -76,6 +76,8 @@
                             };
                             this.$store.commit('setUser', data);
                             this.$router.push('/home');
+
+                            // todo: добавлять пользователя в базу, чтобы забирать его имя при логине
                         })
                         .catch((error) => {
                             console.log(error.code)
