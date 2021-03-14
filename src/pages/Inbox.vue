@@ -70,7 +70,15 @@
 
 <style lang="scss">
     .inbox {
-        padding-top: 34px;
+        @media screen and(min-width: 600px) {
+            padding-left: 16px;
+            padding-right: 16px;
+            padding-top: 34px;
+        }
+
+        @media screen and(min-width: 1024px) {
+            padding-bottom: 95px;
+        }
 
         .inbox_title {
             font-size: 22px;
@@ -85,8 +93,13 @@
             max-width: 1136px;
             margin: 0 auto;
             background: $white;
-            box-shadow: 0 2px 42px rgba(0, 0, 0, 0.111233);
-            border-radius: 7px;
+
+            @media screen and(min-width: 600px) {
+                padding-left: 16px;
+                padding-right: 16px;
+                border-radius: 7px;
+                box-shadow: 0 2px 42px rgba(0, 0, 0, 0.111233);
+            }
         }
 
         .inbox_form {
@@ -96,7 +109,11 @@
         }
 
         .inbox_description {
-            height: 183px;
+            height: 120px;
+
+            @media screen and(min-width: 600px) {
+                height: 183px;
+            }
         }
 
         .inbox_button {

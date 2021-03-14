@@ -53,7 +53,7 @@
         .item_img-wrap {
             position: relative;
             margin-bottom: 6px;
-            padding-bottom: 148px;
+            padding-bottom: 75%;
         }
 
         .item_img {

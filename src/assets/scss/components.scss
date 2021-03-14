@@ -5,13 +5,17 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 58px;
+    height: 48px;
     background: $green;
     font-size: 16px;
     letter-spacing: 0.4px;
     color: $white;
     border-radius: 5px;
     cursor: pointer;
+
+    @media screen and (min-width: 600px) {
+        height: 58px;
+    }
 }
 
 .btn-small {
@@ -59,8 +63,15 @@
 }
 
 .form-item_error {
-    font-size: 12px;
+    font-size: 10px;
     color: red;
+    text-align: right;
+    padding-bottom: 4px;
+
+    @media screen and (min-width: 600px) {
+        font-size: 12px;
+        padding-bottom: 2px;
+    }
 }
 
 .form-item_label {
@@ -80,31 +91,49 @@
 .form-item_input {
     display: block;
     width: 100%;
-    height: 58px;
-    font-size: 16px;
+    height: 48px;
+    font-size: 14px;
     letter-spacing: 0.4px;
     color: $black_1;
     background: $gray_1;
     border: 1px solid $gray_2;
     border-radius: 5px;
-    padding: 19px 13px 19px 13px;
+    padding: 14px 13px 14px 13px;
+
+    @media screen and (min-width: 600px) {
+        font-size: 16px;
+        height: 58px;
+        padding: 19px 13px 19px 13px;
+    }
 
     &::-webkit-input-placeholder {
         font-family: 'Helvetica';
-        font-size: 16px;
+        font-size: 14px;
         color: $gray_3;
+
+        @media screen and (min-width: 600px) {
+            font-size: 16px;
+        }
     }
 
     &:-ms-input-placeholder {
         font-family: 'Helvetica';
-        font-size: 16px;
+        font-size: 14px;
         color: $gray_3;
+
+        @media screen and (min-width: 600px) {
+            font-size: 16px;
+        }
     }
 
     &::placeholder {
         font-family: 'Helvetica';
-        font-size: 16px;
+        font-size: 14px;
         color: $gray_3;
+
+        @media screen and (min-width: 600px) {
+            font-size: 16px;
+        }
     }
 
     &.password {
@@ -126,11 +155,16 @@
 
     .form-item_file-add {
         position: relative;
-        width: 92px;
-        height: 92px;
+        width: 70px;
+        height: 70px;
         background: $gray_5;
         border-radius: 4px;
         cursor: pointer;
+
+        @media screen and (min-width: 600px) {
+            width: 92px;
+            height: 92px;
+        }
 
         &:after, &:before {
             content: '';
@@ -138,11 +172,16 @@
             top: 50%;
             left: 50%;
             display: block;
-            width: 38px;
-            height: 4px;
+            width: 28px;
+            height: 2px;
             border-radius: 4px;
             background: $green;
             z-index: 1;
+
+            @media screen and (min-width: 600px) {
+                width: 38px;
+                height: 4px;
+            }
         }
 
         &:after {
@@ -179,7 +218,7 @@
     width: 24px;
     height: 16px;
     position: absolute;
-    top: 23px;
+    top: 16px;
     right: 18px;
     z-index: 1;
     fill: $black;
@@ -187,5 +226,9 @@
 
     &.hidden {
         fill: $gray_4;
+    }
+
+    @media screen and (min-width: 600px) {
+        top: 23px;
     }
 }

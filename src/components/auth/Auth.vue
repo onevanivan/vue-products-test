@@ -43,7 +43,9 @@
 <style lang="scss">
     .auth {
         width: 100%;
-        max-width: 425px;
+        max-width: 457px;
+        padding-left: 16px;
+        padding-right: 16px;
 
         .auth_form {
             width: 100%;
@@ -59,7 +61,11 @@
             line-height: 25px;
             color: $black_2;
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 17px;
+
+            @media screen and (min-width: 600px) {
+                margin-bottom: 32px;
+            }
         }
 
         .form-item {

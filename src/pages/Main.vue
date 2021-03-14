@@ -20,6 +20,14 @@
         display: flex;
         align-items: flex-start;
         justify-content: center;
-        padding-top: 80px;
+
+
+        @media screen and (min-width: 600px) {
+            padding-top: 40px;
+        }
+
+        @media screen and (min-width: 12024px) {
+            padding-top: 80px;
+        }
     }
 </style>

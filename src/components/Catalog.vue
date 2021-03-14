@@ -21,34 +21,34 @@
         data: () => ({
             items: [
                 {
-                    id:1,
+                    id: 1,
                     title: 'Item name 1',
-                    img:'item.png',
-                    price:500.54
+                    img: 'item.png',
+                    price: 500.54
                 },
                 {
-                    id:2,
+                    id: 2,
                     title: 'Item name 2',
-                    img:'item.png',
-                    price:500.54
+                    img: 'item.png',
+                    price: 500.54
                 },
                 {
-                    id:3,
+                    id: 3,
                     title: 'Item name 3',
-                    img:'item.png',
-                    price:500.54
+                    img: 'item.png',
+                    price: 500.54
                 },
                 {
-                    id:4,
+                    id: 4,
                     title: 'Item name 4',
-                    img:'item.png',
-                    price:500.54
+                    img: 'item.png',
+                    price: 500.54
                 },
                 {
-                    id:5,
+                    id: 5,
                     title: 'Item name 5',
-                    img:'item.png',
-                    price:500.54
+                    img: 'item.png',
+                    price: 500.54
                 }
             ]
         })
@@ -60,7 +60,7 @@
         padding-top: 18px;
 
         .catalog_container {
-            max-width: 887px;
+            max-width: 880px;
             padding: 0 16px;
             margin: 0 auto;
         }
@@ -73,9 +73,17 @@
             margin-right: -3px;
 
             & > * {
-                width: calc(25% - 6px);
+                width: calc(50% - 6px);
                 margin-left: 3px;
                 margin-right: 3px;
+
+                @media screen and(min-width: 600px) {
+                    width: calc(33.33% - 6px);
+                }
+
+                @media screen and(min-width: 1024px) {
+                    width: calc(25% - 6px);
+                }
             }
         }
     }
