@@ -23,6 +23,12 @@
         components: {
             Item
         },
+        props: {
+            favorites: {
+                type: Boolean,
+                default: false
+            }
+        },
         data: () => ({
             items: false,
             loading: true
@@ -31,6 +37,16 @@
             const starCountRef = firebase.database().ref('catalog');
             starCountRef.on('value', (snapshot) => {
                 this.items = snapshot.val();
+                if (this.favorites) {
+                    for (let [key, value] of Object.entries(this.items)) {
+                        if (!value.isFavorite) {
+                            delete this.items[key];
+                        }
+                    }
+                }
+                if (!Object.keys(this.items).length) {
+                    this.items = false;
+                }
                 this.loading = false;
             });
         }

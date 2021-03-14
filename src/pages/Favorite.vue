@@ -1,6 +1,6 @@
 <template>
     <div class="page favorite">
-        <Catalog/>
+        <Catalog favorites/>
     </div>
 </template>
 
