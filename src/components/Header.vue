@@ -25,9 +25,14 @@
                     </div>
                 </div>
                 <div class="header_enter">
-                    <div class="header_user" v-if="authenticated">{{nameInitials}}</div>
-                    <div class="header_auth" @click="logout()" v-if="authenticated">Logout</div>
-                    <RouterLink to="/" class="header_auth" v-else>Login</RouterLink>
+                    <div class="header_user" v-if="authenticated" @click="toggleUserMenu">
+                        {{nameInitials}}
+                        <div class="header_user-menu" v-show="userMenu">
+                            <div class="header_user-menu-item">Edit</div>
+                            <div class="header_user-menu-item" @click.stop="logout()" v-if="authenticated">Logout</div>
+                        </div>
+                    </div>
+                    <RouterLink to="/" class="header_auth" v-if="!authenticated">Login</RouterLink>
                     <RouterLink to="/favorite" class="header_favorite">
                         <Heart class="header_favorite-icon"/>
                     </RouterLink>
@@ -81,7 +86,8 @@
             showSearch: false,
             showAdd: false,
             showSell: false,
-            openMenu: false
+            openMenu: false,
+            userMenu: false
         }),
         created() {
             if (this.$route.name === 'main') {
@@ -153,6 +159,7 @@
         methods: {
             logout() {
                 firebase.auth().signOut().then(() => {
+                    this.userMenu = false;
                     this.$store.commit('setUser', false);
                     this.$store.commit('setAuth', false);
                     this.$router.replace({name: 'main'});
@@ -168,6 +175,9 @@
                 }
                 this.openMenu = !this.openMenu;
             },
+            toggleUserMenu() {
+                this.userMenu = !this.userMenu;
+            }
         }
     }
 </script>
@@ -254,7 +264,10 @@
 
             &.name {
                 flex: 1;
-                margin-left: 46px;
+
+                @media screen and(min-width: 1024px) {
+                    margin-left: 46px;
+                }
 
                 .header_search-icon {
                     display: block;
@@ -269,8 +282,8 @@
             }
 
             &.location {
-                flex-shrink: 0;
-                width: 198px;
+                max-width: 198px;
+                flex: 1;
                 margin-right: 7px;
                 margin-left: 7px;
 
@@ -373,6 +386,7 @@
             cursor: pointer;
             flex-shrink: 0;
             text-decoration: none;
+            margin-top: 6px;
         }
 
         .header_hamburger {
@@ -492,6 +506,7 @@
         }
 
         .header_user {
+            position: relative;
             width: 40px;
             height: 40px;
             background: #f1c40f;
@@ -501,7 +516,29 @@
             justify-content: center;
             font-size: 14px;
             color: rgba(19, 15, 2, 0.72);
-            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .header_user-menu {
+            position: absolute;
+            top: 46px;
+            left: 0;
+            font-size: 14px;
+            width: 100px;
+            background: $gray;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .header_user-menu-item {
+            padding: 5px 8px;
+            cursor: pointer;
+            transition: all 0.25s;
+
+            &:hover {
+                color: $black_1;
+                background: $gray_1;
+            }
         }
     }
 </style>

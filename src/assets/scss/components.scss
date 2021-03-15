@@ -38,7 +38,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 176px;
+    width: 131px;
     height: 50px;
     background: $purple;
     font-size: 14px;
@@ -47,6 +47,10 @@
     border-radius: 4px;
     cursor: pointer;
     flex-shrink: 0;
+
+    @media screen and (min-width: 1024px) {
+        width: 176px;
+    }
 }
 
 // form-item
