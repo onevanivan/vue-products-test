@@ -33,6 +33,9 @@
         data: () => ({
             isFavorite: false
         }),
+        created(){
+            this.isFavorite = this.item.isFavorite
+        },
         methods: {
             toggleFavorite(id) {
                 if (!this.authenticated) {
@@ -61,6 +64,8 @@
                         newPostRef.set({
                             uid: this.user.id,
                             itemId: id
+                        }).then(()=>{
+                            console.log("Set favorite succeeded.")
                         })
                     }
                 }

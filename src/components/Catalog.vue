@@ -1,14 +1,14 @@
 <template>
     <div class="catalog">
         <div class="catalog_container">
-            <div class="catalog_list" v-if="Object.keys(items).length">
+            <div class="catalog_list" v-if="Object.keys(items).length && !loading">
                 <Item v-for="(item, key) in items"
                       :id="key"
                       :item="item"
                       :key="key"/>
             </div>
             <p class="catalog_empty" v-if="loading">Loading...</p>
-            <p class="catalog_empty" v-if="!items && !loading">You still have no products</p>
+            <p class="catalog_empty" v-if="!Object.keys(items).length && !loading">You still have no products</p>
         </div>
     </div>
 </template>
@@ -41,23 +41,23 @@
         created() {
             firebase.database().ref().child('catalog').get().then((snapshotCat) => {
                 let items = snapshotCat.val();
-                if (this.favorites) {
-                    firebase.database().ref().child('favorites').get().then((snapshot) => {
-                        const data = snapshot.val();
-                        let resultData = {};
-                        for (let [itemKey, itemValue] of Object.entries(items)) {
-                            this.custom.forEach(data, (value, key) => {
-                                console.log(key)
-                                if (itemKey == value.itemId && this.user.id == value.uid) {
+                firebase.database().ref().child('favorites').get().then((snapshot) => {
+                    const data = snapshot.val();
+                    let resultData = {};
+                    // items each
+                    for (let [itemKey, itemValue] of Object.entries(items)) {
+                        // favorites each
+                        this.custom.forEach(data, (value) => {
+                            if (itemKey == value.itemId && this.user.id == value.uid) {
+                                itemValue.isFavorite = true;
+                                if (this.favorites) {
                                     resultData[itemKey] = itemValue;
                                 }
-                            });
-                        }
-                        this.items = resultData;
-                    });
-                } else {
-                    this.items = items;
-                }
+                            }
+                        });
+                    }
+                    this.items = this.favorites ? resultData : items;
+                });
                 this.loading = false;
             });
         }
