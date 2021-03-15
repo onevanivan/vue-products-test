@@ -1,7 +1,7 @@
 <template>
     <div class="catalog">
         <div class="catalog_container">
-            <div class="catalog_list" v-if="items && !loading">
+            <div class="catalog_list" v-if="Object.keys(items).length">
                 <Item v-for="(item, key) in items"
                       :id="key"
                       :item="item"
@@ -30,22 +30,33 @@
             }
         },
         data: () => ({
-            items: false,
+            items: {},
             loading: true
         }),
+        computed: {
+            user() {
+                return this.$store.state.user;
+            }
+        },
         created() {
-            const starCountRef = firebase.database().ref('catalog');
-            starCountRef.on('value', (snapshot) => {
-                this.items = snapshot.val();
+            firebase.database().ref().child('catalog').get().then((snapshotCat) => {
+                let items = snapshotCat.val();
                 if (this.favorites) {
-                    for (let [key, value] of Object.entries(this.items)) {
-                        if (!value.isFavorite) {
-                            delete this.items[key];
+                    firebase.database().ref().child('favorites').get().then((snapshot) => {
+                        const data = snapshot.val();
+                        let resultData = {};
+                        for (let [itemKey, itemValue] of Object.entries(items)) {
+                            this.custom.forEach(data, (value, key) => {
+                                console.log(key)
+                                if (itemKey == value.itemId && this.user.id == value.uid) {
+                                    resultData[itemKey] = itemValue;
+                                }
+                            });
                         }
-                    }
-                }
-                if (!Object.keys(this.items).length) {
-                    this.items = false;
+                        this.items = resultData;
+                    });
+                } else {
+                    this.items = items;
                 }
                 this.loading = false;
             });
