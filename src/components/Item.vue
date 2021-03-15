@@ -33,24 +33,45 @@
         data: () => ({
             isFavorite: false
         }),
-        created() {
-            this.isFavorite = this.item.isFavorite
-        },
         methods: {
             toggleFavorite(id) {
                 if (!this.authenticated) {
                     this.$router.push({name: 'main'});
                 } else {
-                    this.isFavorite = !this.isFavorite;
-                    firebase.database().ref('catalog/' + id).update({
-                        isFavorite: this.isFavorite
-                    });
+                    if (this.isFavorite) {
+                        // get all favorites
+                        firebase.database().ref().child('favorites').get().then((snapshot) => {
+                            const data = snapshot.val();
+                            let favoriteKey = this.custom.findKey(data, {'itemId': id, 'uid': this.user.id});
+                            let favoriteItem = firebase.database().ref(`favorites/${favoriteKey}`);
+                            favoriteItem.remove()
+                                .then(() => {
+                                    this.isFavorite = false;
+                                    console.log("Remove favorite succeeded.")
+                                })
+                                .catch(function (error) {
+                                    console.log("Removefavorite failed: " + error.message)
+                                });
+                        });
+
+                    } else {
+                        this.isFavorite = true;
+                        const postListRef = firebase.database().ref('favorites');
+                        const newPostRef = postListRef.push();
+                        newPostRef.set({
+                            uid: this.user.id,
+                            itemId: id
+                        })
+                    }
                 }
             }
         },
         computed: {
             authenticated() {
                 return this.$store.state.authenticated;
+            },
+            user() {
+                return this.$store.state.user;
             }
         },
     }
