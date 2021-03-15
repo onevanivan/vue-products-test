@@ -232,3 +232,23 @@
         top: 23px;
     }
 }
+
+.dropdown {
+    width: 100%;
+
+    .dropdown_button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 48px;
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        color: $black_1;
+        background: $gray_1;
+        border: 1px solid $gray_2;
+        border-radius: 5px;
+        padding: 14px 13px 14px 13px;
+        cursor: pointer;
+    }
+}

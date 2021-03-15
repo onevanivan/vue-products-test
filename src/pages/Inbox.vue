@@ -43,6 +43,22 @@
                     </div>
                 </div>
                 <div class="form-item">
+                    <el-dropdown trigger="click" @command="dropdown" class="dropdown"
+                                 placement="bottom-start"
+                                 size="medium">
+                      <span class="el-dropdown-link dropdown_button">
+                        {{categoryButton}}<i class="el-icon-arrow-down el-icon--right"></i>
+                      </span>
+                        <el-dropdown-menu slot="dropdown" class="dropdown_list">
+                            <el-dropdown-item
+                                    v-for="cat in categories"
+                                    :key="cat.value"
+                                    :command="cat.value">{{cat.title}}
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+                <div class="form-item">
                     <label class="form-item_label">Price</label>
                     <input class="form-item_input"
                            v-model="price"
@@ -61,15 +77,34 @@
     import firebase from "firebase/app";
     import "firebase/database";
 
+
     export default {
         name: 'Inbox',
         data: () => ({
             title: '',
             location: '',
             description: '',
-            price: ''
+            price: '',
+            category: '',
+            categories: [
+                {
+                    value: 'category_1',
+                    title: 'Category 1'
+                },
+                {
+                    value: 'category_2',
+                    title: 'Category 2'
+                },
+                {
+                    value: 'category_3',
+                    title: 'Category 3'
+                }
+            ]
         }),
         methods: {
+            dropdown(value) {
+                this.category = value;
+            },
             isNumber: function (evt) {
                 let charCode = evt.keyCode;
                 if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
@@ -87,12 +122,18 @@
                         location: this.location,
                         description: this.description,
                         price: this.price,
-                        img: 'item.png'
+                        img: 'item.png',
+                        category: this.category
                     }).then(() => {
                         this.$router.push({name: 'home'});
                     });
                 }
             }
+        },
+        computed: {
+            categoryButton() {
+                return this.category ? this.custom.find(this.categories, {value: this.category}).title : 'Выберите категорию';
+            },
         }
     }
 </script>

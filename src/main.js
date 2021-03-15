@@ -7,11 +7,14 @@ import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
 import VuexPersistedstate from 'vuex-persistedstate'
 import {sync} from 'vuex-router-sync'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(VueRouter);
 Vue.use(VeeValidate);
 Vue.use(Vuex);
-Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
+Vue.use(VueLodash, { name: 'custom' , lodash: lodash });
+Vue.use(ElementUI);
 
 import routes from './routes'
 
