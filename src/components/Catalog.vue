@@ -45,19 +45,21 @@
                     const data = snapshot.val();
                     let resultData = {};
                     // items each
-                    for (let [itemKey, itemValue] of Object.entries(items)) {
-                        // favorites each
-                        this.custom.forEach(data, (value) => {
-                            if (itemKey == value.itemId && this.user.id == value.uid) {
-                                itemValue.isFavorite = true;
-                                if (this.favorites) {
-                                    resultData[itemKey] = itemValue;
+                    if (items) {
+                        for (let [itemKey, itemValue] of Object.entries(items)) {
+                            // favorites each
+                            this.custom.forEach(data, (value) => {
+                                if (itemKey == value.itemId && this.user.id == value.uid) {
+                                    itemValue.isFavorite = true;
+                                    if (this.favorites) {
+                                        resultData[itemKey] = itemValue;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+                        this.items = this.favorites ? resultData : items;
+                        this.loading = false;
                     }
-                    this.items = this.favorites ? resultData : items;
-                    this.loading = false;
                 });
             });
         }

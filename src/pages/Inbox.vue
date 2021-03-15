@@ -44,8 +44,7 @@
                 </div>
                 <div class="form-item">
                     <el-dropdown trigger="click" @command="dropdown" class="dropdown"
-                                 placement="bottom-start"
-                                 size="medium">
+                                 placement="bottom-start">
                       <span class="el-dropdown-link dropdown_button">
                         {{categoryButton}}<i class="el-icon-arrow-down el-icon--right"></i>
                       </span>
@@ -132,7 +131,7 @@
         },
         computed: {
             categoryButton() {
-                return this.category ? this.custom.find(this.categories, {value: this.category}).title : 'Выберите категорию';
+                return this.category ? this.custom.find(this.categories, {value: this.category}).title : 'Select category';
             },
         }
     }
