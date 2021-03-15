@@ -6,12 +6,26 @@
                     <LogoDark class="header_logo" v-if="theme==='light'"/>
                     <LogoLight class="header_logo" v-if="theme==='dark'"/>
                 </RouterLink>
-                <div class="header_ctrls">
-                    <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add</RouterLink>
-                    <RouterLink v-if="showSell" to="/home" class="btn-small header_btn">Sell</RouterLink>
-                    <div class="header_user" v-if="authenticated">{{nameInitials}}</div>
+                <div class="header_center">
+                    <div class="header_ctrls">
+                        <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add
+                        </RouterLink>
+                        <RouterLink v-if="showSell" to="/home" class="btn-small header_btn">Sell</RouterLink>
+                    </div>
+                    <div class="header_search" v-if="showSearch">
+                        <div class="header_search-input-wrap name">
+                            <input type="text" class="header_search-input" placeholder="Search products by name">
+                            <Search class="header_search-icon"/>
+                        </div>
+                        <div class="header_search-input-wrap location">
+                            <input type="text" class="header_search-input" placeholder="Location">
+                            <Location class="header_search-icon"/>
+                        </div>
+                        <div class="header_search-btn btn-middle">Search</div>
+                    </div>
                 </div>
                 <div class="header_enter">
+                    <div class="header_user" v-if="authenticated">{{nameInitials}}</div>
                     <div class="header_auth" @click="logout()" v-if="authenticated">Logout</div>
                     <RouterLink to="/" class="header_auth" v-else>Login</RouterLink>
                     <RouterLink to="/favorite" class="header_favorite">
@@ -49,6 +63,8 @@
     import LogoLight from '@/assets/img/logo-light.svg';
     import LogoDark from '@/assets/img/logo-dark.svg';
     import Heart from '@/assets/img/heart.svg';
+    import Location from '@/assets/img/location.svg';
+    import Search from '@/assets/img/search.svg';
     import firebase from "firebase/app";
 
     export default {
@@ -56,7 +72,9 @@
         components: {
             LogoLight,
             LogoDark,
-            Heart
+            Heart,
+            Location,
+            Search
         },
         data: () => ({
             theme: 'light',
@@ -122,7 +140,7 @@
                 return this.$store.state.user;
             },
             nameInitials() {
-                if(this.user?.fullName) {
+                if (this.user?.fullName) {
                     return this.user.fullName.split(' ').map((val, key) => {
                         if (key < 2) {
                             return val.charAt(0);
@@ -196,24 +214,123 @@
             justify-content: space-between;
 
             @media screen and (min-width: 768px) {
+                align-items: flex-start;
                 padding: 18px 28px 15px 28px;
             }
         }
 
-        .header_ctrls {
+        .header_center {
             flex: 1;
+
             display: none;
 
             @media screen and (min-width: 768px) {
-                display: flex;
-                align-items: center;
+                display: block;
+            }
+        }
+
+        .header_ctrls {
+            padding-top: 6px;
+        }
+
+        .header_search {
+            display: flex;
+            align-items: center;
+            margin-top: 44px;
+        }
+
+        .header_search-btn {
+            margin-left: auto;
+        }
+
+        .header_search-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header_search-input-wrap {
+            position: relative;
+
+            &.name {
+                flex: 1;
+                margin-left: 46px;
+
+                .header_search-icon {
+                    display: block;
+                    width: 17px;
+                    height: 18px;
+                    left: 22px;
+                }
+
+                .header_search-input {
+                    padding-left: 52px;
+                }
+            }
+
+            &.location {
+                flex-shrink: 0;
+                width: 198px;
+                margin-right: 7px;
+                margin-left: 7px;
+
+                .header_search-icon {
+                    display: block;
+                    width: 13px;
+                    height: 19px;
+                    left: 10px;
+                }
+
+                .header_search-input {
+                    padding-left: 38px;
+                }
+            }
+        }
+
+        .header_search-input {
+            display: block;
+            font-size: 15px;
+            width: 100%;
+            height: 50px;
+            background: $white;
+            border-radius: 4px;
+            padding-right: 16px;
+            border: none;
+
+            &::-webkit-input-placeholder {
+                font-family: 'Helvetica';
+                font-size: 14px;
+                color: rgba(123, 123, 123, 0.776523);
+
+                @media screen and (min-width: 600px) {
+                    font-size: 15px;
+                }
+            }
+
+            &:-ms-input-placeholder {
+                font-family: 'Helvetica';
+                font-size: 14px;
+                color: rgba(123, 123, 123, 0.776523);
+
+                @media screen and (min-width: 600px) {
+                    font-size: 15px;
+                }
+            }
+
+            &::placeholder {
+                font-family: 'Helvetica';
+                font-size: 14px;
+                color: rgba(123, 123, 123, 0.776523);
+
+                @media screen and (min-width: 600px) {
+                    font-size: 15px;
+                }
             }
         }
 
         .header_enter {
             display: none;
             align-items: center;
-            padding-top: 6px;
             margin-left: 23px;
 
             @media screen and (min-width: 768px) {
@@ -257,7 +374,6 @@
             flex-shrink: 0;
             text-decoration: none;
         }
-
 
         .header_hamburger {
             padding: 10px;
@@ -378,7 +494,7 @@
         .header_user {
             width: 40px;
             height: 40px;
-            background: #F1C40F;
+            background: #f1c40f;
             border-radius: 50%;
             display: flex;
             align-items: center;
