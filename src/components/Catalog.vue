@@ -57,8 +57,8 @@
                         });
                     }
                     this.items = this.favorites ? resultData : items;
+                    this.loading = false;
                 });
-                this.loading = false;
             });
         }
     }
