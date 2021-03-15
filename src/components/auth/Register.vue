@@ -88,18 +88,24 @@
                     && !this.errors.first('passwordAgain')
                 ) {
                     if (this.password !== this.passwordAgain) {
-                        this.registerErrorMessage = 'Password not confirmed'
+                        this.registerErrorMessage = 'Password not confirmed';
                         return false;
                     }
                     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                         .then((userCredential) => {
                             const user = {
+                                id: userCredential.user.uid,
                                 email: userCredential.user.email,
                                 fullName: this.fullName
                             };
-                            this.$store.commit('setAuth', true);
-                            this.$store.commit('setUser', user);
-                            this.$router.replace({name: 'home'});
+
+                            // insert user to database
+                            firebase.database().ref('users/' + userCredential.user.uid).set(user)
+                                .then(() => {
+                                    this.$store.commit('setAuth', true);
+                                    this.$store.commit('setUser', user);
+                                    this.$router.push({name: 'home'});
+                                });
                         })
                         .catch((error) => {
                             if (error.code === 'auth/email-already-in-use') {

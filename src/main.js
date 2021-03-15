@@ -3,12 +3,15 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate'
 import Vuex from 'vuex'
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
 import VuexPersistedstate from 'vuex-persistedstate'
 import {sync} from 'vuex-router-sync'
 
 Vue.use(VueRouter);
 Vue.use(VeeValidate);
 Vue.use(Vuex);
+Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
 
 import routes from './routes'
 

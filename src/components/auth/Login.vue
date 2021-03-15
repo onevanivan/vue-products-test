@@ -61,14 +61,8 @@
                     && !this.errors.first('password')
                 ) {
                     firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-                        .then((userCredential) => {
-                            console.log(userCredential.user)
+                        .then(() => {
                             this.$store.commit('setAuth', true);
-                            const user = {
-                                email: userCredential.user.email,
-                                fullName: ''
-                            };
-                            this.$store.commit('setUser', user);
                             this.$router.replace({name: 'home'});
                         }).catch((error) => {
                         if (error.code === 'auth/user-not-found') {
