@@ -7,9 +7,9 @@
                     <LogoLight class="header_logo" v-if="theme==='dark'"/>
                 </RouterLink>
                 <div class="header_ctrls">
-                    <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add
-                    </RouterLink>
+                    <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add</RouterLink>
                     <RouterLink v-if="showSell" to="/home" class="btn-small header_btn">Sell</RouterLink>
+                    <div class="header_user" v-if="authenticated">{{nameInitials}}</div>
                 </div>
                 <div class="header_enter">
                     <div class="header_auth" @click="logout()" v-if="authenticated">Logout</div>
@@ -117,6 +117,19 @@
         computed: {
             authenticated() {
                 return this.$store.state.authenticated;
+            },
+            user() {
+                return this.$store.state.user;
+            },
+            nameInitials() {
+                if(this.user?.fullName) {
+                    return this.user.fullName.split(' ').map((val, key) => {
+                        if (key < 2) {
+                            return val.charAt(0);
+                        }
+                    }).join('');
+                }
+                return '';
             }
         },
         methods: {
@@ -190,11 +203,11 @@
 
         .header_ctrls {
             flex: 1;
-            padding-top: 6px;
             display: none;
 
             @media screen and (min-width: 768px) {
-                display: block;
+                display: flex;
+                align-items: center;
             }
         }
 
@@ -361,6 +374,19 @@
             margin-bottom: 32px;
             width: 100%;
             text-align: center;
+        }
+
+        .header_user {
+            width: 40px;
+            height: 40px;
+            background: #F1C40F;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: rgba(19, 15, 2, 0.72);
+            margin-left: 20px;
         }
     }
 </style>
