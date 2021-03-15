@@ -196,7 +196,6 @@
             justify-content: space-between;
 
             @media screen and (min-width: 768px) {
-                align-items: flex-start;
                 padding: 18px 28px 15px 28px;
             }
         }
