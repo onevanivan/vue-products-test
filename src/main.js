@@ -9,14 +9,14 @@ import VuexPersistedstate from 'vuex-persistedstate'
 import {sync} from 'vuex-router-sync'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import firebase from "firebase/app";
+import routes from './routes'
 
 Vue.use(VueRouter);
 Vue.use(VeeValidate);
 Vue.use(Vuex);
 Vue.use(VueLodash, { name: 'custom' , lodash: lodash });
 Vue.use(ElementUI);
-
-import routes from './routes'
 
 Vue.config.productionTip = false;
 
@@ -37,11 +37,10 @@ const store = new Vuex.Store({
 });
 
 const router = new VueRouter(routes);
-
 sync(store, router);
 
-import firebase from "firebase/app";
-import "firebase/auth";
+export const eventBus = new Vue();
+
 const firebaseConfig = {
     apiKey: "AIzaSyAhSuYHoKZ_4pVKChEmmD8cUPzMwvqTTTU",
     authDomain: "avada-media-test.firebaseapp.com",

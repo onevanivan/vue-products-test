@@ -14,14 +14,18 @@
                     </div>
                     <div class="header_search" v-if="showSearch">
                         <div class="header_search-input-wrap name">
-                            <input type="text" class="header_search-input" placeholder="Search products by name">
+                            <input type="text" class="header_search-input"
+                                   v-model="search"
+                                   placeholder="Search products by name">
                             <Search class="header_search-icon"/>
                         </div>
                         <div class="header_search-input-wrap location">
-                            <input type="text" class="header_search-input" placeholder="Location">
+                            <input type="text" class="header_search-input"
+                                   v-model="location"
+                                   placeholder="Location">
                             <Location class="header_search-icon"/>
                         </div>
-                        <div class="header_search-btn btn-middle">Search</div>
+                        <div class="header_search-btn btn-middle" @click="searchEmit()">Search</div>
                     </div>
                 </div>
                 <div class="header_enter">
@@ -71,6 +75,7 @@
     import Location from '@/assets/img/location.svg';
     import Search from '@/assets/img/search.svg';
     import firebase from "firebase/app";
+    import {eventBus} from '/src/main'
 
     export default {
         name: 'Header',
@@ -87,7 +92,9 @@
             showAdd: false,
             showSell: false,
             openMenu: false,
-            userMenu: false
+            userMenu: false,
+            search: '',
+            location: ''
         }),
         created() {
             if (this.$route.name === 'main') {
@@ -177,6 +184,9 @@
             },
             toggleUserMenu() {
                 this.userMenu = !this.userMenu;
+            },
+            searchEmit() {
+                eventBus.$emit('search', {search: this.search, location: this.location});
             }
         }
     }
