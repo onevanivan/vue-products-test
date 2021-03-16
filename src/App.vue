@@ -58,8 +58,6 @@
 
     #app {
         height: 100%;
-        display: flex;
-        flex-direction: column;
     }
 
     .page {

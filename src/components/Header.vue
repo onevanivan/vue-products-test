@@ -531,18 +531,18 @@
             left: 0;
             right: 0;
             bottom: 0;
-            height: calc(100vh - 74px);
+            height: 100vh;
             z-index: 100;
             display: flex;
             align-items: center;
             flex-direction: column;
+            justify-content: center;
             transition: all 0.25s;
             transform: translateY(-100%);
             background: white;
             opacity: 0;
             visibility: hidden;
             cursor: pointer;
-            padding-top: 74px;
             background: $gray;
 
             &.mod-top {
