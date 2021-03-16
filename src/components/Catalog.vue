@@ -14,6 +14,10 @@
                             </span>
                             <el-dropdown-menu slot="dropdown" class="dropdown_list">
                                 <el-dropdown-item
+                                        key="not_category"
+                                        command="">Choose category
+                                </el-dropdown-item>
+                                <el-dropdown-item
                                         v-for="cat in categories"
                                         :key="cat.value"
                                         :command="cat.value">{{cat.title}}
@@ -21,9 +25,17 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
-                    <input type="text" class="catalog_filter_input from" placeholder="Price from (USD)">
+                    <input type="text" class="catalog_filter_input from"
+                           @input="filterInputHandler"
+                           @keypress="isNumber($event)"
+                           v-model="from"
+                           placeholder="Price from (USD)">
                     <div class="catalog_filter-sep"></div>
-                    <input type="text" class="catalog_filter_input to" placeholder="Price to (USD)">
+                    <input type="text" class="catalog_filter_input to"
+                           @input="filterInputHandler()"
+                           @keypress="isNumber($event)"
+                           v-model="to"
+                           placeholder="Price to (USD)">
                 </div>
             </div>
 
@@ -75,7 +87,9 @@
                     title: 'Category 3'
                 }
             ],
-            category: ''
+            category: '',
+            from: '',
+            to: ''
         }),
         computed: {
             user() {
@@ -110,13 +124,31 @@
                             if (search || location) {
                                 this.searchHandler(search, location);
                             }
+                            if (this.category || this.from || this.to) {
+                                this.filterHandler();
+                            }
                         }
                         this.loading = false;
                     });
                 });
             },
+            filterInputHandler() {
+                let timeout = setTimeout(() => {
+                    this.getData();
+                    clearTimeout(timeout);
+                }, 1000);
+            },
+            isNumber: function (evt) {
+                let charCode = evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            },
             dropdown(value) {
                 this.category = value;
+                this.getData();
             },
             searchHandler(search, location) {
                 if (search && location) {
@@ -142,6 +174,43 @@
                     let searchItems = {};
                     this.custom.forEach(this.items, (value, key) => {
                         if (value.location.toLowerCase().indexOf(location.toLowerCase()) != -1) {
+                            searchItems[key] = value;
+                        }
+                    });
+                    this.items = searchItems;
+                }
+            },
+            filterHandler() {
+                if (this.category) {
+                    let searchItems = {};
+                    this.custom.forEach(this.items, (value, key) => {
+                        if (value.category == this.category) {
+                            searchItems[key] = value;
+                        }
+                    });
+                    this.items = searchItems;
+                }
+                if (this.from && !this.to || !this.from && this.to) {
+                    let searchItems = {};
+                    this.custom.forEach(this.items, (value, key) => {
+                        if (this.from && !this.to) {
+                            if (parseInt(value.price) >= parseInt(this.from)) {
+                                searchItems[key] = value;
+                            }
+                        }
+                        if (!this.from && this.to) {
+                            if (parseInt(value.price) <= parseInt(this.to)) {
+                                searchItems[key] = value;
+                            }
+                        }
+                    });
+                    this.items = searchItems;
+                }
+                if (this.from && this.to) {
+                    let searchItems = {};
+                    this.custom.forEach(this.items, (value, key) => {
+                        if ((parseInt(value.price) >= parseInt(this.from))
+                            && (parseInt(value.price) <= parseInt(this.to))) {
                             searchItems[key] = value;
                         }
                     });
