@@ -89,7 +89,9 @@
             ],
             category: '',
             from: '',
-            to: ''
+            to: '',
+            search: '',
+            location: ''
         }),
         computed: {
             user() {
@@ -100,7 +102,7 @@
             }
         },
         methods: {
-            getData(search = null, location = null) {
+            getData() {
                 firebase.database().ref().child('catalog').get().then((snapshotCat) => {
                     let items = snapshotCat.val();
                     firebase.database().ref().child('favorites').get().then((snapshot) => {
@@ -121,8 +123,8 @@
                             }
                             this.items = this.favorites ? resultData : items;
                             // search
-                            if (search || location) {
-                                this.searchHandler(search, location);
+                            if (this.search || this.location) {
+                                this.searchHandler(this.search, this.location);
                             }
                             if (this.category || this.from || this.to) {
                                 this.filterHandler();
@@ -224,8 +226,9 @@
         mounted() {
             eventBus.$on('search', data => {
                 this.loading = true;
-                let {search, location} = data;
-                this.getData(search, location);
+                this.search = data.search;
+                this.location = data.location;
+                this.getData();
             });
         },
         beforeDestroy() {
