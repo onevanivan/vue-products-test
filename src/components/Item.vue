@@ -2,7 +2,7 @@
     <div class="item">
         <div class="item_img-wrap">
             <img class="item_img"
-                 :src="loadImg(item.img)" alt="">
+                 :src="item.img" alt="">
             <div class="item_favorite"
                  :class="{selected:isFavorite}"
                  @click="toggleFavorite(id)">

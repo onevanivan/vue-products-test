@@ -150,7 +150,7 @@
 }
 
 .form-item_file {
-    display: block;
+    display: flex;
     width: 100%;
     background: $gray_1;
     border: 1px solid $gray_2;
@@ -209,6 +209,19 @@
         height: 100%;
         opacity: 0;
         cursor: pointer;
+    }
+
+    .form-item_file-result {
+        display: block;
+        width: 70px;
+        height: 70px;
+        margin-left: 16px;
+        border-radius: 4px;
+
+        @media screen and (min-width: 600px) {
+            width: 92px;
+            height: 92px;
+        }
     }
 }
 

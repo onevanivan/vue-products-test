@@ -1,6 +1,9 @@
 <template>
     <div class="page inbox">
         <div class="inbox_container">
+            <div class="inbox_loading" v-if="loading">
+                <img class="inbox_loading-icon" :src="require('/src/assets/img/loading.jpg')" alt="">
+            </div>
             <div class="inbox_form">
                 <h1 class="inbox_title">Add product</h1>
                 <div class="form-item">
@@ -38,8 +41,11 @@
                     <label class="form-item_label">Photo</label>
                     <div class="form-item_file">
                         <div class="form-item_file-add">
-                            <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-item_file-input">
+                            <input type="file" accept="image/x-png,image/gif,image/jpeg"
+                                   @change="uploadFile"
+                                   class="form-item_file-input">
                         </div>
+                        <img v-if="tmpUrl" :src="tmpUrl" class="form-item_file-result">
                     </div>
                 </div>
                 <div class="form-item">
@@ -66,7 +72,8 @@
                            type="text"
                            placeholder="For example: 500">
                 </div>
-                <div class="btn-big inbox_button" @click="add()">Submit</div>
+                <div class="btn-big inbox_button" @click.once="add()">Submit</div>
+                <p class="inbox_error">{{errorMessage}}</p>
             </div>
         </div>
     </div>
@@ -75,11 +82,13 @@
 <script>
     import firebase from "firebase/app";
     import "firebase/database";
+    import "firebase/storage";
 
 
     export default {
         name: 'Inbox',
         data: () => ({
+            loading: false,
             title: '',
             location: '',
             description: '',
@@ -98,9 +107,20 @@
                     value: 'category_3',
                     title: 'Category 3'
                 }
-            ]
+            ],
+            file: null,
+            tmpUrl: '',
+            errorMessage: ''
         }),
         methods: {
+            uploadFile(e) {
+                this.file = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(this.file);
+                reader.onload = () => {
+                    this.tmpUrl = reader.result;
+                };
+            },
             dropdown(value) {
                 this.category = value;
             },
@@ -113,19 +133,34 @@
                 }
             },
             add() {
-                if (this.title && this.location) {
-                    const postListRef = firebase.database().ref('catalog');
-                    const newPostRef = postListRef.push();
-                    newPostRef.set({
-                        title: this.title,
-                        location: this.location,
-                        description: this.description,
-                        price: this.price,
-                        img: 'item.png',
-                        category: this.category
-                    }).then(() => {
-                        this.$router.push({name: 'home'});
+                if (this.title && this.location
+                    && this.category
+                    && this.price
+                    && this.file
+                    && this.file instanceof File) {
+                    this.loading = true;
+                    // upload file
+                    let storageRef = firebase.storage().ref();
+                    let child = storageRef.child(`images/${this.getFilename}`);
+                    child.put(this.file).then(() => {
+                        child.getDownloadURL().then((url) => {
+                            // save item
+                            const postListRef = firebase.database().ref('catalog');
+                            const newPostRef = postListRef.push();
+                            newPostRef.set({
+                                title: this.title,
+                                location: this.location,
+                                description: this.description,
+                                price: this.price,
+                                img: url,
+                                category: this.category
+                            }).then(() => {
+                                this.$router.push({name: 'home'});
+                            });
+                        });
                     });
+                } else {
+                    this.errorMessage = 'fill in all fields except description';
                 }
             }
         },
@@ -133,6 +168,10 @@
             categoryButton() {
                 return this.category ? this.custom.find(this.categories, {value: this.category}).title : 'Select category';
             },
+            getFilename() {
+                return Math.random().toString(36).substring(2, 15)
+                    + Math.random().toString(36).substring(2, 15);
+            }
         }
     }
 </script>
@@ -159,9 +198,11 @@
         }
 
         .inbox_container {
+            position: relative;
             max-width: 1136px;
             margin: 0 auto;
             background: $white;
+            overflow: hidden;
 
             @media screen and(min-width: 600px) {
                 padding-left: 16px;
@@ -172,6 +213,7 @@
         }
 
         .inbox_form {
+            position: relative;
             max-width: 696px;
             margin: 0 auto;
             padding: 36px 16px 32px 16px;
@@ -192,6 +234,41 @@
 
         .form-item {
             margin-bottom: 24px;
+        }
+
+        .inbox_loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 4;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .inbox_loading-icon {
+            display: block;
+            width: 50px;
+            height: 50px;
+
+            @media screen and (min-width: 768px) {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .inbox_error {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            z-index: 1;
+            font-size: 14px;
+            color: $red;
+            text-align: center;
         }
     }
 </style>

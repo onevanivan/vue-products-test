@@ -59,13 +59,13 @@
                                     }
                                 });
                             }
-                            this.loading = false;
                             this.items = this.favorites ? resultData : items;
                             // search
                             if (search || location) {
                                 this.searchHandler(search, location);
                             }
                         }
+                        this.loading = false;
                     });
                 });
             },
