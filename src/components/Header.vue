@@ -2,16 +2,41 @@
     <header class="header" :class="{'dark':theme === 'dark'}">
         <div class="header_wrap">
             <div class="header_container">
-                <RouterLink to="/home">
-                    <LogoDark class="header_logo" v-if="theme==='light'"/>
-                    <LogoLight class="header_logo" v-if="theme==='dark'"/>
-                </RouterLink>
-                <div class="header_center">
-                    <div class="header_ctrls">
-                        <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add
+                <div class="header_container-top">
+                    <div class="header_logo-wrap">
+                        <RouterLink to="/home">
+                            <LogoDark class="header_logo" v-if="theme==='light'"/>
+                            <LogoLight class="header_logo" v-if="theme==='dark'"/>
                         </RouterLink>
-                        <RouterLink v-if="showSell" to="/home" class="btn-small header_btn">Sell</RouterLink>
                     </div>
+                    <div class="header_center">
+                        <div class="header_ctrls">
+                            <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add
+                            </RouterLink>
+                            <RouterLink v-if="showSell" to="/home" class="btn-small header_btn">Sell</RouterLink>
+                        </div>
+                    </div>
+                    <div class="header_enter">
+                        <div class="header_user" v-if="authenticated" @click="toggleUserMenu">
+                            {{nameInitials}}
+                            <div class="header_user-menu" v-show="userMenu">
+                                <div class="header_user-menu-item">Edit</div>
+                                <div class="header_user-menu-item" @click.stop="logout()" v-if="authenticated">Logout
+                                </div>
+                            </div>
+                        </div>
+                        <RouterLink to="/" class="header_auth" v-if="!authenticated">Login</RouterLink>
+                        <RouterLink to="/favorite" class="header_favorite">
+                            <Heart class="header_favorite-icon"/>
+                        </RouterLink>
+                    </div>
+                    <div class="header_hamburger" @click.stop="toggleMenu()" :class="{active:openMenu}">
+                        <div class="header_hamburger-box">
+                            <div class="header_hamburger-line"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header_center">
                     <div class="header_search" v-if="showSearch">
                         <div class="header_search-input-wrap name">
                             <input type="text" class="header_search-input"
@@ -26,24 +51,6 @@
                             <Location class="header_search-icon"/>
                         </div>
                         <div class="header_search-btn btn-middle" @click="searchEmit()">Search</div>
-                    </div>
-                </div>
-                <div class="header_enter">
-                    <div class="header_user" v-if="authenticated" @click="toggleUserMenu">
-                        {{nameInitials}}
-                        <div class="header_user-menu" v-show="userMenu">
-                            <div class="header_user-menu-item">Edit</div>
-                            <div class="header_user-menu-item" @click.stop="logout()" v-if="authenticated">Logout</div>
-                        </div>
-                    </div>
-                    <RouterLink to="/" class="header_auth" v-if="!authenticated">Login</RouterLink>
-                    <RouterLink to="/favorite" class="header_favorite">
-                        <Heart class="header_favorite-icon"/>
-                    </RouterLink>
-                </div>
-                <div class="header_hamburger" @click.stop="toggleMenu()" :class="{active:openMenu}">
-                    <div class="header_hamburger-box">
-                        <div class="header_hamburger-line"></div>
                     </div>
                 </div>
             </div>
@@ -229,23 +236,31 @@
             width: 100%;
             margin: 0 auto;
             padding: 18px 10px 15px 28px;
+
+            @media screen and (min-width: 768px) {
+                padding: 18px 28px 15px 28px;
+            }
+        }
+
+        .header_container-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
 
             @media screen and (min-width: 768px) {
                 align-items: flex-start;
-                padding: 18px 28px 15px 28px;
             }
         }
 
         .header_center {
             flex: 1;
+            max-width: 848px;
 
             display: none;
 
             @media screen and (min-width: 768px) {
                 display: block;
+                margin: 0 auto;
             }
         }
 
@@ -274,10 +289,6 @@
 
             &.name {
                 flex: 1;
-
-                @media screen and(min-width: 1024px) {
-                    margin-left: 46px;
-                }
 
                 .header_search-icon {
                     display: block;
@@ -358,6 +369,9 @@
 
             @media screen and (min-width: 768px) {
                 display: flex;
+                justify-content: flex-end;
+                width: 148px;
+                margin-left: 0;
             }
         }
 
@@ -548,6 +562,12 @@
             &:hover {
                 color: $black_1;
                 background: $gray_1;
+            }
+        }
+
+        .header_logo-wrap {
+            @media screen and (min-width: 768px) {
+                width: 148px;
             }
         }
     }
