@@ -33,7 +33,7 @@
         data: () => ({
             isFavorite: false
         }),
-        created(){
+        created() {
             this.isFavorite = this.item.isFavorite
         },
         methods: {
@@ -58,13 +58,13 @@
                         });
 
                     } else {
-                        this.isFavorite = true;
                         const postListRef = firebase.database().ref('favorites');
                         const newPostRef = postListRef.push();
                         newPostRef.set({
                             uid: this.user.id,
                             itemId: id
-                        }).then(()=>{
+                        }).then(() => {
+                            this.isFavorite = true;
                             console.log("Set favorite succeeded.")
                         })
                     }
