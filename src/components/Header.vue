@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="header_center">
+                <div class="header_search-wrap">
                     <div class="header_search" v-if="showSearch">
                         <div class="header_search-input-wrap name">
                             <input type="text" class="header_search-input"
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <nav class="header_menu" :class="{active:openMenu}">
+        <nav class="header_menu" :class="{active:openMenu,'mod-top':showSearch}">
             <div class="header_menu-item" v-if="showAdd && authenticated">
                 <RouterLink to="/inbox">+Add</RouterLink>
             </div>
@@ -235,7 +235,7 @@
             max-width: 1200px;
             width: 100%;
             margin: 0 auto;
-            padding: 18px 10px 15px 28px;
+            padding: 18px 28px 15px 28px;
 
             @media screen and (min-width: 768px) {
                 padding: 18px 28px 15px 28px;
@@ -264,18 +264,36 @@
             }
         }
 
+
         .header_ctrls {
             padding-top: 6px;
+        }
+
+        .header_search-wrap {
+            flex: 1;
+            max-width: 848px;
+            margin: 0 auto;
         }
 
         .header_search {
             display: flex;
             align-items: center;
-            margin-top: 44px;
+            margin-top: 10px;
+
+            @media screen and (min-width: 768px) {
+                margin-top: 44px;
+            }
         }
 
         .header_search-btn {
             margin-left: auto;
+            height: 35px;
+            width: 90px;
+
+            @media screen and (min-width: 768px) {
+                height: 50px;
+                width: 131px;
+            }
         }
 
         .header_search-icon {
@@ -291,14 +309,23 @@
                 flex: 1;
 
                 .header_search-icon {
-                    display: block;
+                    display: none;
                     width: 17px;
                     height: 18px;
                     left: 22px;
+
+                    @media screen and (min-width: 768px) {
+                        display: block;
+                    }
                 }
 
                 .header_search-input {
-                    padding-left: 52px;
+                    padding-left: 10px;
+                    height: 35px;
+                    @media screen and (min-width: 768px) {
+                        padding-left: 52px;
+                        height: 50px;
+                    }
                 }
             }
 
@@ -309,14 +336,23 @@
                 margin-left: 7px;
 
                 .header_search-icon {
-                    display: block;
+                    display: none;
                     width: 13px;
                     height: 19px;
                     left: 10px;
+
+                    @media screen and (min-width: 768px) {
+                        display: block;
+                    }
                 }
 
                 .header_search-input {
-                    padding-left: 38px;
+                    padding-left: 10px;
+                    height: 35px;
+                    @media screen and (min-width: 768px) {
+                        padding-left: 38px;
+                        height: 50px;
+                    }
                 }
             }
         }
@@ -417,6 +453,7 @@
             padding: 10px;
             flex-shrink: 0;
             cursor: pointer;
+            margin-right: -10px;
 
             @media screen and (min-width: 768px) {
                 display: none;
@@ -507,6 +544,10 @@
             cursor: pointer;
             padding-top: 74px;
             background: $gray;
+
+            &.mod-top {
+                height: calc(100vh - 120px);
+            }
 
             @media screen and (min-width: 768px) {
                 display: none;
