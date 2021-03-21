@@ -1,4 +1,4 @@
-# avada-media-test
+# vue-js-test
 
 ## Project setup
 ```
