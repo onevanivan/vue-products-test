@@ -41,15 +41,15 @@ sync(store, router);
 
 export const eventBus = new Vue();
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAhSuYHoKZ_4pVKChEmmD8cUPzMwvqTTTU",
-    authDomain: "avada-media-test.firebaseapp.com",
-    databaseURL: "https://avada-media-test-default-rtdb.firebaseio.com",
-    projectId: "avada-media-test",
-    storageBucket: "avada-media-test.appspot.com",
-    messagingSenderId: "332658269283",
-    appId: "1:332658269283:web:9ea36ce2d38c49e863ac56"
+let firebaseConfig = {
+    apiKey: "AIzaSyDEC9zAAukGOSXS6g2NCNYS_2atwcAqYew",
+    authDomain: "vue-js-test-460bd.firebaseapp.com",
+    projectId: "vue-js-test-460bd",
+    storageBucket: "vue-js-test-460bd.appspot.com",
+    messagingSenderId: "469158190636",
+    appId: "1:469158190636:web:ffa7b63511ba64cb947b89"
 };
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 new Vue({
