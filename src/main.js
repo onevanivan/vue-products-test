@@ -41,15 +41,15 @@ sync(store, router);
 
 export const eventBus = new Vue();
 
-let firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyDEC9zAAukGOSXS6g2NCNYS_2atwcAqYew",
     authDomain: "vue-js-test-460bd.firebaseapp.com",
+    databaseURL: "https://vue-js-test-460bd-default-rtdb.firebaseio.com",
     projectId: "vue-js-test-460bd",
     storageBucket: "vue-js-test-460bd.appspot.com",
     messagingSenderId: "469158190636",
     appId: "1:469158190636:web:ffa7b63511ba64cb947b89"
 };
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 new Vue({
