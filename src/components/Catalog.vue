@@ -52,6 +52,7 @@
 </template>
 
 <script>
+    import global from '../mixins/global'
     import Item from './Item';
     import firebase from "firebase/app";
     import "firebase/database";
@@ -60,6 +61,7 @@
 
     export default {
         name: 'Catalog',
+        mixins: [global],
         components: {
             Item,
             Grid
@@ -73,20 +75,6 @@
         data: () => ({
             items: {},
             loading: true,
-            categories: [
-                {
-                    value: 'category_1',
-                    title: 'Category 1'
-                },
-                {
-                    value: 'category_2',
-                    title: 'Category 2'
-                },
-                {
-                    value: 'category_3',
-                    title: 'Category 3'
-                }
-            ],
             category: '',
             from: '',
             to: '',

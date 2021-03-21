@@ -8,7 +8,7 @@
                 <h1 class="inbox_title">Add product</h1>
                 <div class="form-item">
                     <div class="form-item_top">
-                        <label class="form-item_label">Title <span class="required">*</span></label>
+                        <label class="form-item_label">Title</label>
                         <span class="form-item_error">{{ errors.first('title') }}</span>
                     </div>
                     <input class="form-item_input"
@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-item">
                     <div class="form-item_top">
-                        <label class="form-item_label">Location <span class="required">*</span></label>
+                        <label class="form-item_label">Location</label>
                         <span class="form-item_error">{{ errors.first('location') }}</span>
                     </div>
                     <input class="form-item_input"
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+    import global from '../mixins/global'
     import firebase from "firebase/app";
     import "firebase/database";
     import "firebase/storage";
@@ -87,6 +88,7 @@
 
     export default {
         name: 'Inbox',
+        mixins: [global],
         data: () => ({
             loading: false,
             title: '',
@@ -94,20 +96,6 @@
             description: '',
             price: '',
             category: '',
-            categories: [
-                {
-                    value: 'category_1',
-                    title: 'Category 1'
-                },
-                {
-                    value: 'category_2',
-                    title: 'Category 2'
-                },
-                {
-                    value: 'category_3',
-                    title: 'Category 3'
-                }
-            ],
             file: null,
             tmpUrl: '',
             errorMessage: ''

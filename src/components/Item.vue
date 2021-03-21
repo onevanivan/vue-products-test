@@ -11,6 +11,8 @@
             </div>
         </div>
         <p class="item_title" v-if="item.title">{{item.title}}</p>
+        <p class="item_title" v-if="item.category">{{category}}</p>
+        <p class="item_title" v-if="item.location">{{item.location}}</p>
         <p class="item_price" v-if="parseInt(item.price)>0">${{item.price}}</p>
     </div>
 </template>
@@ -77,6 +79,12 @@
             },
             user() {
                 return this.$store.state.user;
+            },
+            category() {
+                if (this.item.category) {
+                    return this.categories.find(item => this.item.category === item.value)?.title;
+                }
+                return '';
             }
         },
     }
