@@ -56,7 +56,7 @@
             </div>
         </div>
         <nav class="header_menu" :class="{active:openMenu,'mod-top':showSearch}">
-            <div class="header_menu-item" v-if="showAdd && authenticated">
+            <div class="header_menu-item" v-if="authenticated">
                 <RouterLink to="/inbox">+Add</RouterLink>
             </div>
             <div class="header_menu-item" v-if="showSell">

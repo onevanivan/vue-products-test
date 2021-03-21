@@ -23,29 +23,13 @@
             });
 
             this.$router.beforeEach((to, from, next) => {
-                if (from.name === 'main') {
-                    let databaseUser = firebase.auth().currentUser;
-                    if (databaseUser) {
-                        let user = {
-                            id: databaseUser.uid,
-                            email: databaseUser.email,
-                        };
-                        let starCountRef = firebase.database().ref(`users/${databaseUser.uid}`);
-                        starCountRef.on('value', (snapshot) => {
-                            const data = snapshot.val();
-                            user.fullName = data.fullName;
-                            this.$store.commit('setUser', user);
-                        });
-                    }
-                }
-
                 firebase.auth().onAuthStateChanged((user) => {
                     if (!user) {
                         this.$store.commit('setUser', false);
                         this.$store.commit('setAuth', false);
                     }
+                    next();
                 });
-                next();
             });
         }
     }

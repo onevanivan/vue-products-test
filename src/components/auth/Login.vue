@@ -28,7 +28,6 @@
                      :class="{hidden:passwordType === 'password'}"
                      @click="togglePasswordVisible()"/>
             </div>
-            <p class="auth_note">Don’t remember password?</p>
         </div>
         <div class="btn-big auth_btn-login" @click="login()">Continue</div>
         <p class="auth_form-error">{{loginErrorMessage}}</p>
@@ -61,9 +60,19 @@
                     && !this.errors.first('password')
                 ) {
                     firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-                        .then(() => {
-                            this.$store.commit('setAuth', true);
-                            this.$router.replace({name: 'home'});
+                        .then((databaseUser) => {
+                            let user = {
+                                id: databaseUser.user.uid,
+                                email: databaseUser.user.email,
+                            };
+                            firebase.database().ref().child(`users/${databaseUser.user.uid}`).get()
+                                .then((snapshotUser) => {
+                                    let data = snapshotUser.val();
+                                    user.fullName = data.fullName;
+                                    this.$store.commit('setUser', user);
+                                    this.$store.commit('setAuth', true);
+                                    this.$router.replace({name: 'home'});
+                                });
                         }).catch((error) => {
                         if (error.code === 'auth/user-not-found') {
                             this.loginErrorMessage = 'User not found';
