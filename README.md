@@ -1,4 +1,4 @@
-# vue-js-test
+# vue-products-test
 
 ## Project setup
 ```
