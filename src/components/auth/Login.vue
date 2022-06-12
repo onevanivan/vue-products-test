@@ -57,6 +57,7 @@ export default {
       if (this.errors.first('email') || this.errors.first('password')) {
         return;
       }
+      this.$store.commit('setLoading', true);
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
           .then((databaseUser) => {
             let user = {
@@ -69,9 +70,11 @@ export default {
                   user.fullName = data.fullName;
                   this.$store.commit('setUser', user);
                   this.$store.commit('setAuth', true);
+                  this.$store.commit('setLoading', false);
                   this.$router.replace({name: 'home'});
                 });
           }).catch((error) => {
+        this.$store.commit('setLoading', false);
         if (error.code === 'auth/user-not-found') {
           this.loginErrorMessage = 'User not found';
         }

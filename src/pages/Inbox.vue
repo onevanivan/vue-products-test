@@ -1,9 +1,6 @@
 <template>
     <div class="page inbox">
         <div class="inbox_container">
-            <div class="inbox_loading" v-if="loading">
-                <img class="inbox_loading-icon" :src="require('/src/assets/img/loading.jpg')" alt="">
-            </div>
             <div class="inbox_form">
                 <h1 class="inbox_title">Add product</h1>
                 <div class="form-item">
@@ -84,13 +81,12 @@
     import firebase from "firebase/app";
     import "firebase/database";
     import "firebase/storage";
-
+    import {mapGetters} from "vuex";
 
     export default {
         name: 'Inbox',
         mixins: [global],
         data: () => ({
-            loading: false,
             title: '',
             location: '',
             description: '',
@@ -126,7 +122,7 @@
                     && this.price
                     && this.file
                     && this.file instanceof File) {
-                    this.loading = true;
+                    this.$store.commit('setLoading', true);
                     // upload file
                     let storageRef = firebase.storage().ref();
                     let child = storageRef.child(`images/${this.getFilename}`);
@@ -143,16 +139,19 @@
                                 img: url,
                                 category: this.category
                             }).then(() => {
+                                this.$store.commit('setLoading', false);
                                 this.$router.push({name: 'home'});
                             });
                         });
                     });
                 } else {
+                    this.$store.commit('setLoading', false);
                     this.errorMessage = 'fill in all fields except description';
                 }
             }
         },
         computed: {
+            ...mapGetters(["isLoading"]),
             categoryButton() {
                 return this.category ? this.custom.find(this.categories, {value: this.category}).title : 'Select category';
             },
@@ -224,29 +223,6 @@
             margin-bottom: 24px;
         }
 
-        .inbox_loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            z-index: 4;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .inbox_loading-icon {
-            display: block;
-            width: 50px;
-            height: 50px;
-
-            @media screen and (min-width: 768px) {
-                width: 100px;
-                height: 100px;
-            }
-        }
 
         .inbox_error {
             position: absolute;

@@ -168,12 +168,15 @@
         },
         methods: {
             logout() {
+                this.$store.commit('setLoading', true);
                 firebase.auth().signOut().then(() => {
                     this.userMenu = false;
                     this.$store.commit('setUser', false);
                     this.$store.commit('setAuth', false);
+                    this.$store.commit('setLoading', false);
                     this.$router.replace({name: 'main'});
                 }).catch((error) => {
+                    this.$store.commit('setLoading', false);
                     console.log(error)
                 });
             },

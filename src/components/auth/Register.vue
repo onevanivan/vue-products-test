@@ -91,6 +91,7 @@
                         this.registerErrorMessage = 'Password not confirmed';
                         return false;
                     }
+                    this.$store.commit('setLoading', true);
                     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                         .then((userCredential) => {
                             const user = {
@@ -104,10 +105,12 @@
                                 .then(() => {
                                     this.$store.commit('setAuth', true);
                                     this.$store.commit('setUser', user);
+                                    this.$store.commit('setLoading', false);
                                     this.$router.push({name: 'home'});
                                 });
                         })
                         .catch((error) => {
+                            this.$store.commit('setLoading', false);
                             if (error.code === 'auth/email-already-in-use') {
                                 this.registerErrorMessage = 'User already exists'
                             }
