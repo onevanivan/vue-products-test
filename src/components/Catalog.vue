@@ -58,6 +58,7 @@
     import "firebase/database";
     import {eventBus} from '/src/main'
     import Grid from '@/assets/img/grid.svg';
+    import {mapGetters} from "vuex";
 
     export default {
         name: 'Catalog',
@@ -82,9 +83,7 @@
             location: ''
         }),
         computed: {
-            user() {
-                return this.$store.state.user;
-            },
+            ...mapGetters(["user"]),
             categoryButton() {
                 return this.category ? this.custom.find(this.categories, {value: this.category}).title : 'Choose category';
             }

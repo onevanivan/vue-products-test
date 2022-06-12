@@ -11,21 +11,21 @@
                     </div>
                     <div class="header_center">
                         <div class="header_ctrls">
-                            <RouterLink v-if="showAdd && authenticated" to="/inbox" class="btn-small header_btn">+Add
+                            <RouterLink v-if="showAdd && isAuthenticated" to="/inbox" class="btn-small header_btn">+Add
                             </RouterLink>
                             <RouterLink v-if="showSell" to="/home" class="btn-small header_btn">Sell</RouterLink>
                         </div>
                     </div>
                     <div class="header_enter">
-                        <div class="header_user" v-if="authenticated" @click="toggleUserMenu">
+                        <div class="header_user" v-if="isAuthenticated" @click="toggleUserMenu">
                             {{nameInitials}}
                             <div class="header_user-menu" v-show="userMenu">
                                 <div class="header_user-menu-item">Edit</div>
-                                <div class="header_user-menu-item" @click.stop="logout()" v-if="authenticated">Logout
+                                <div class="header_user-menu-item" @click.stop="logout()" v-if="isAuthenticated">Logout
                                 </div>
                             </div>
                         </div>
-                        <RouterLink to="/" class="header_auth" v-if="!authenticated">Login</RouterLink>
+                        <RouterLink to="/" class="header_auth" v-if="!isAuthenticated">Login</RouterLink>
                         <RouterLink to="/favorite" class="header_favorite">
                             <Heart class="header_favorite-icon"/>
                         </RouterLink>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <nav class="header_menu" :class="{active:openMenu,'mod-top':showSearch}">
-            <div class="header_menu-item" v-if="authenticated">
+            <div class="header_menu-item" v-if="isAuthenticated">
                 <RouterLink to="/inbox">+Add</RouterLink>
             </div>
             <div class="header_menu-item" v-if="showSell">
@@ -65,7 +65,7 @@
             <div class="header_menu-item">
                 <RouterLink to="/favorite">Favorite</RouterLink>
             </div>
-            <div class="header_menu-item" v-if="authenticated">
+            <div class="header_menu-item" v-if="isAuthenticated">
                 <div @click="logout()">Logout</div>
             </div>
             <div class="header_menu-item" v-else>
@@ -83,6 +83,7 @@
     import Search from '@/assets/img/search.svg';
     import firebase from "firebase/app";
     import {eventBus} from '/src/main'
+    import { mapGetters } from "vuex";
 
     export default {
         name: 'Header',
@@ -153,12 +154,7 @@
             }
         },
         computed: {
-            authenticated() {
-                return this.$store.state.authenticated;
-            },
-            user() {
-                return this.$store.state.user;
-            },
+            ...mapGetters(["isAuthenticated", 'user']),
             nameInitials() {
                 if (this.user?.fullName) {
                     return this.user.fullName.split(' ').map((val, key) => {

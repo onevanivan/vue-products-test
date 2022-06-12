@@ -1,7 +1,7 @@
-import Main from './pages/Main.vue';
-import Home from './pages/Home.vue';
-import Inbox from './pages/Inbox.vue';
-import Favorite from './pages/Favorite.vue';
+import Main from './../pages/Main.vue';
+import Home from './../pages/Home.vue';
+import Inbox from './../pages/Inbox.vue';
+import Favorite from './../pages/Favorite.vue';
 
 export default {
     mode: 'history',
@@ -9,7 +9,8 @@ export default {
         {
             path: '/',
             component: Main,
-            name: 'main'
+            name: 'main',
+            meta: { auth: true },
         },
         {
             path: '/home',
@@ -19,12 +20,14 @@ export default {
         {
             path: '/inbox',
             component: Inbox,
-            name: 'inbox'
+            name: 'inbox',
+            meta: { requiresAuth: true }
         },
         {
             path: '/favorite',
             component: Favorite,
-            name: 'favorite'
+            name: 'favorite',
+            meta: { requiresAuth: true }
         }
     ]
 };
