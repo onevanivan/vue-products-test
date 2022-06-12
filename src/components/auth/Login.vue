@@ -23,7 +23,8 @@
                v-model="password"
                v-validate="'required|min:6'"
                name="password"
-               :type="passwordType">
+               :type="passwordType"
+               @keyup.enter.stop="login">
         <Eye class="form-item_icon"
              :class="{hidden:passwordType === 'password'}"
              @click="togglePasswordVisible()"/>

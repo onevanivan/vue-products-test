@@ -47,7 +47,8 @@
                 <input class="form-item_input" :type="passwordAgainType"
                        name="password_again"
                        v-validate="'required'"
-                       v-model="passwordAgain">
+                       v-model="passwordAgain"
+                      @keyup.enter.stop="register">
                 <Eye class="form-item_icon"
                      :class="{hidden:passwordAgainType === 'password'}"
                      @click="togglePasswordVisible('passwordAgainType')"/>
